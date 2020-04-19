@@ -3,6 +3,8 @@ package com.cpg.go.dto;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -13,7 +15,7 @@ import org.hibernate.validator.constraints.Range;
 
 
 @Entity
-@Table(name = "ProductDTOGreatOutdoors")
+@Table(name = "ProductDTO_GreatOutdoors")
 @DynamicUpdate
 public class ProductDTO {
   
@@ -60,6 +62,18 @@ public class ProductDTO {
 	@Pattern(regexp = "[0-9]*",message="not valid pattern")
 	@Size(min=3,max=5,message="Product Brand Size is not valid")
 	private String productBrand;
+
+	@ManyToOne(targetEntity = UserDTO.class)
+	@JoinColumn(name = "ProductMaster_Id")
+	private UserDTO productMaster;
+	
+	public UserDTO getProductMaster() {
+		return productMaster;
+	}
+
+	public void setProductMaster(UserDTO productMaster) {
+		this.productMaster = productMaster;
+	}
 
 	public long getProductId() {
 		return productId;
