@@ -7,7 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -20,51 +20,56 @@ import org.hibernate.validator.constraints.Range;
 public class ProductDTO {
   
 	@Id
-	@Column(name = "Product_Id")
-	@Range(min=1,message="Product Id InValid")
-	private long productId;
+	@Column(name = "Product_Id",nullable = false)
+	@Range(min=1,max=Long.MAX_VALUE,message="Product Id InValid")
+	@NotNull(message="Product Id cannot be empty")
+	private Long productId;
 	
-	@Column(name="Product_Price")
-	@Range(min=1,message="Product Price is InValid")
-	private double price;
+	@NotNull(message = "Product Price cannot be empty")
+	@Column(name="Product_Price",nullable = false)
+	@Range(min=1,max=Integer.MAX_VALUE,message="Product Price is InValid")
+	private Integer productPrice;
 	
-	@NotBlank(message = "Product Color Cannot be empty")
-	@Column(name="Product_Colour")
-	private String colour;
+	@NotBlank(message = "Product Colour cannot be empty")
+	@Column(name="Product_Colour",nullable = false)
+	private String productColour;
 	
-	@NotBlank(message = "Product Dimension Cannot be empty")
-	@Column(name="Product_Dimension")
+	@NotBlank(message = "Product Dimension cannot be empty")
+	@Column(name="Product_Dimension",nullable = false)
 	@Size(min = 2,max=20,message = "Product Dimension size not valid")
-	private String dimension;
+	private String productDimension;
 	
-	@NotBlank(message = "Product Specification Cannot be empty")
-	@Column(name="Product_Specification")
-	private String specification;
+	@NotBlank(message = "Product Specification cannot be empty")
+	@Column(name="Product_Specification",nullable = false)
+	private String productSpecification;
 	
-	@NotBlank(message = "Product Manufacturer Cannot be empty")
-	@Column(name="Product_Manufacturer")
-	private String manufacturer;
+	@NotBlank(message = "Product Manufacturer cannot be empty")
+	@Column(name="Product_Manufacturer",nullable = false)
+	private String productManufacturer;
     
-	@Column(name="Product_Quantity")
-	@Range(min=1,message="Product Quantity InValid")
-	private int quantity;
 	
-	@Column(name="Product_Category")
+	@Column(name="Product_Quantity",nullable = false)
+	@Range(min=1,max=Integer.MAX_VALUE,message="Product Quantity InValid")
+	@NotNull(message="Product Quantity cannot be empty")
+	private Integer productQuantity;
+	
+	@Column(name="Product_Category",nullable = false)
 	@Range(min = 1,max=5,message = "Product Category InValid")
-	private int productCategory;
+	@NotNull(message="Product Category cannot be empty")
+	private Integer productCategory;
 	
-	@NotBlank(message = "Product Name Cannot be empty")
-	@Column(name="Product_Name")
+	@NotBlank(message = "Product Name cannot be empty")
+	@Column(name="Product_Name",nullable = false)
 	private String productName;
 	
-	@NotBlank(message = "Product Brand Cannot be empty")
-	@Column(name="Product_Brand")
-	@Pattern(regexp = "[0-9]*",message="not valid pattern")
-	@Size(min=3,max=5,message="Product Brand Size is not valid")
+	@NotBlank(message = "Product Brand cannot be empty")
+	@Column(name="Product_Brand",nullable = false)
+	@Size(min=3,max=25,message="Product Brand Size is not valid")
 	private String productBrand;
-
+    
+	//TODO make @not null
 	@ManyToOne(targetEntity = UserDTO.class)
-	@JoinColumn(name = "ProductMaster_Id")
+	@JoinColumn(name = "ProductMaster_Id",nullable = false)
 	private UserDTO productMaster;
 	
 	public UserDTO getProductMaster() {
@@ -83,52 +88,52 @@ public class ProductDTO {
 		this.productId = productId;
 	}
 
-	public double getPrice() {
-		return price;
+	public Integer getProductPrice() {
+		return productPrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setProductPrice(Integer price) {
+		this.productPrice = price;
 	}
 
-	public String getColour() {
-		return colour;
+	public String getProductColour() {
+		return productColour;
 	}
 
-	public void setColour(String colour) {
-		this.colour = colour;
+	public void setProductColour(String colour) {
+		this.productColour = colour;
 	}
 
-	public String getDimension() {
-		return dimension;
+	public String getProductDimension() {
+		return productDimension;
 	}
 
-	public void setDimension(String dimension) {
-		this.dimension = dimension;
+	public void setProductDimension(String dimension) {
+		this.productDimension = dimension;
 	}
 
-	public String getSpecification() {
-		return specification;
+	public String getProductSpecification() {
+		return productSpecification;
 	}
 
-	public void setSpecification(String specification) {
-		this.specification = specification;
+	public void setProductSpecification(String specification) {
+		this.productSpecification = specification;
 	}
 
-	public String getManufacturer() {
-		return manufacturer;
+	public String getProductManufacturer() {
+		return productManufacturer;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setProductManufacturer(String manufacturer) {
+		this.productManufacturer = manufacturer;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getProductQuantity() {
+		return productQuantity;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setProductQuantity(int quantity) {
+		this.productQuantity = quantity;
 	}
 
 	public int getProductCategory() {
@@ -153,6 +158,15 @@ public class ProductDTO {
 
 	public void setProductBrand(String productBrand) {
 		this.productBrand = productBrand;
+	}
+
+	@Override
+	public String toString() {
+		return "ProductDTO [productId=" + productId + ", productPrice=" + productPrice + ", productColour="
+				+ productColour + ", productDimension=" + productDimension + ", productSpecification="
+				+ productSpecification + ", productManufacturer=" + productManufacturer + ", productQuantity="
+				+ productQuantity + ", productCategory=" + productCategory + ", productName=" + productName
+				+ ", productBrand=" + productBrand + ", productMaster=" + productMaster + "]";
 	}
 	
 }

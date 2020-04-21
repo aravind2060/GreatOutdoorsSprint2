@@ -1,0 +1,83 @@
+<form name="myForm" #myForm="ngForm" (ngSubmit)="addProduct(myForm)" class="form-horizontal">
+
+    <div class="form-group">
+        <label for="productId" class="control-label col-sm-2">Product Id:</label>
+        <div class="col-sm-10">
+            <input type="number" id="productId" name="productId" ngModel required placeholder="Enter Product Id" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productName" class="control-label col-sm-2">Product Name:</label>
+        <div class="col-sm-10">
+            <input type="text" id="productName" name="productName" ngModel required placeholder="Enter Product Name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productBrand" class="control-label col-sm-2">Product Brand:</label>
+        <div class="col-sm-10">
+            <input type="text" id="productBrand" name="productBrand" ngModel required
+                placeholder="Enter Product Brand" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productPrice" class="control-label col-sm-2">Product Price:</label>
+        <div class="col-sm-10">
+            <input type="number" id="productPrice" name="productPrice" ngModel required
+                placeholder="Enter Product Price" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productManufacturer" class="control-label col-sm-2">Product Manufacturer:</label>
+        <div class="col-sm-10">
+            <input type="text" id="productManufacturer" name="productManufacturer" ngModel required
+                placeholder="Enter Product Manufacturer" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productSpecification" class="control-label col-sm-2">Product Specification:</label>
+        <div class="col-sm-10">
+            <input type="text" id="productSpecification" name="productSpecification" required ngModel
+                placeholder="Enter Product Specification" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productDimension" class="control-label col-sm-2">Product Dimension:</label>
+        <div class="col-sm-10">
+            <input type="text" id="productDimension" name="productDimension" required ngModel
+                placeholder="Enter Product Dimension" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productColour" class="control-label col-sm-2">Product Colour:</label>
+        <div class="col-sm-10">
+            <input type="text" id="productColour" ngModel name="productColour" required
+                placeholder="Enter Product Colour" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="productQuantity" class="control-label col-sm-2">Product Quantity:</label>
+        <div class="col-sm-10">
+            <input type="number" id="productQuantity" ngModel name="productQuantity" required
+                placeholder="Enter Product Quantity" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="radio-inline"><input type="radio" ngModel name="productCategory" value="1" />Camping
+            Equipment</label>
+        <label class="radio-inline"><input type="radio" ngModel name="productCategory" value="2" />Golf
+            Equipment</label>
+        <label class="radio-inline"><input type="radio" ngModel name="productCategory" value="3" />Mountaineering
+            Equipment</label>
+        <label class="radio-inline"><input type="radio" ngModel name="productCategory" value="4" />Outdoor
+            Protection</label>
+        <label class="radio-inline"><input type="radio" ngModel name="productCategory" value="5" />Personal
+            Accessories</label>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Add Product</button>
+        </div>
+    </div>
+
+
+</form>

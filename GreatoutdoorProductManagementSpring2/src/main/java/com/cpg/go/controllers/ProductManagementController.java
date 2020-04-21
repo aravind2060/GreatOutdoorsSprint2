@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ import com.cpg.go.exceptions.ProductException;
 import com.cpg.go.service.ProductServiceImpl;
 
 @RestController
-
+@CrossOrigin
 public class ProductManagementController {
 
 	
@@ -33,9 +34,11 @@ public class ProductManagementController {
 	//TODO only valid product master can add
 	@PostMapping(value = "/addproduct",consumes = {"application/json","application/xml"})
 	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductDTO productDTO,BindingResult bindingResult)
-	{
+	{		System.out.println(productDTO);
+	     
 		if(bindingResult.hasErrors())
 		{
+		
 		  Map<String,Map<String,String>> map=new HashMap<>();	
 		  bindingResult.getAllErrors().forEach(error->{
 			    String key=((FieldError)error).getField();

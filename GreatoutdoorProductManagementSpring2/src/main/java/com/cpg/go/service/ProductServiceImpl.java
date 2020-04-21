@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cpg.go.dao.ProductDAO;
+import com.cpg.go.dao.UserDAO;
 import com.cpg.go.dto.ProductDTO;
+import com.cpg.go.dto.UserDTO;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -19,7 +21,14 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public boolean addProduct(ProductDTO productDTO) {
-		
+	   UserDTO user=new UserDTO();
+	   user.setUserId(101);
+	   user.setUserName("aravind");
+	   user.setUserpassword("123");
+	   user.setUserRole(2);
+	   user.setUseremail("aravind4532@gmail.com");
+	   user.setUserphoneNumber("9866772522");
+	   productDTO.setProductMaster(user);
 	   productDao.save(productDTO);
 	
 		return productDao.existsById(productDTO.getProductId());

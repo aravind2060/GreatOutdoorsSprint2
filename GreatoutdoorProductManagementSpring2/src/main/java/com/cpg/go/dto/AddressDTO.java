@@ -10,41 +10,45 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name="AddressDTO_GreatOutdoors")
+@DynamicUpdate
 public class AddressDTO {
 
    	@Id
    	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="Address_Id")
-   	@Range(min=1,message="Address Id InValid")
-   	private long addressId;
+	@Column(name="Address_Id",nullable=false)
+   	@Range(min=1,max=Long.MAX_VALUE,message="Address Id InValid")
+   	private Long addressId;
    	
-   	@NotBlank(message="Address BuildingNumber InValid")
-   	@Column(name = "Address_Building_Number")
-	private String buildingNo;
+	@NotBlank(message = "Address Building Number cannot be empty")
+   	@Column(name = "Address_Building_Number",nullable=false)
+	private String addressBuildingNo;
    	
-   	@NotBlank(message="Address City InValid")
-   	@Column(name="Address_City")
-	private String city;
+ 
+	@NotBlank(message = "Address City cannot be empty")
+   	@Column(name="Address_City",nullable=false)
+	private String addressCity;
    	
-   	@NotBlank(message="Address State InValid")
-   	@Column(name="Address_State")
-	private String state;
+ 
+	@NotBlank(message = "Address State cannot be empty")
+   	@Column(name="Address_State",nullable=false)
+	private String addressState;
 	
-   	@NotBlank(message="Address field InValid")
-   	@Column(name="Address_Field")
-   	private String field;
+	@NotBlank(message = "Address Field cannot be empty")
+   	@Column(name="Address_Field",nullable=false)
+   	private String addressField;
    	
-   	@NotBlank(message="Address Zip InValid")
-   	@Column(name="Address_Zip")
-	private String zip;
+	@NotBlank(message = "Address Zip cannot be empty")
+   	@Column(name="Address_Zip",nullable=false)
+	private String addressZip;
 	
 	
 	@ManyToOne(targetEntity = UserDTO.class)
-	@JoinColumn(name = "User_Id")
+	@JoinColumn(name = "User_Id",nullable = false)
 	private UserDTO user;
 	
 	
@@ -54,35 +58,35 @@ public class AddressDTO {
 	public void setAddressId(long addressId) {
 		this.addressId = addressId;
 	}
-	public String getBuildingNo() {
-		return buildingNo;
+	public String getAddressBuildingNo() {
+		return addressBuildingNo;
 	}
-	public void setBuildingNo(String buildingNo) {
-		this.buildingNo = buildingNo;
+	public void setAddressBuildingNo(String buildingNo) {
+		this.addressBuildingNo = buildingNo;
 	}
-	public String getCity() {
-		return city;
+	public String getAddressCity() {
+		return addressCity;
 	}
-	public void setCity(String city) {
-		this.city = city;
+	public void setAddressCity(String city) {
+		this.addressCity = city;
 	}
-	public String getState() {
-		return state;
+	public String getAddressState() {
+		return addressState;
 	}
-	public void setState(String state) {
-		this.state = state;
+	public void setAddressState(String state) {
+		this.addressState = state;
 	}
-	public String getField() {
-		return field;
+	public String getAddressField() {
+		return addressField;
 	}
-	public void setField(String field) {
-		this.field = field;
+	public void setAddressField(String field) {
+		this.addressField = field;
 	}
-	public String getZip() {
-		return zip;
+	public String getAddressZip() {
+		return addressZip;
 	}
-	public void setZip(String zip) {
-		this.zip = zip;
+	public void setAddressZip(String zip) {
+		this.addressZip = zip;
 	}
 	
 	
