@@ -13,4 +13,17 @@ export class ProductServiceService {
     return this.httpClient.post(this.url + "addproduct", productDto);
   }
 
+  getProductsWhichBelongsToParticularProductMaster(id: number) {
+    return this.httpClient.get(this.url + "viewproductsofproductmaster/" + id);
+  }
+
+  getProductById(id: number) {
+    return this.httpClient.get(this.url + "getproductbyid/" + id);
+  }
+  updateProduct(productDto: ProductDTO) {
+    return this.httpClient.put(this.url + "updateproduct", productDto);
+  }
+  deleteProduct(id: number) {
+    return this.httpClient.delete(this.url + "deleteproduct/" + id);
+  }
 }

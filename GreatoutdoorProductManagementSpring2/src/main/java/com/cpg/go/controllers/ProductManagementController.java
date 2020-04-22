@@ -1,6 +1,7 @@
 package com.cpg.go.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cpg.go.dao.ProductDAO;
 import com.cpg.go.dto.ProductDTO;
 import com.cpg.go.exceptions.ProductException;
 import com.cpg.go.service.ProductServiceImpl;
@@ -31,11 +34,12 @@ public class ProductManagementController {
 
 	@Autowired
 	ProductServiceImpl productService;
-	//TODO only valid product master can add
+	
+	//TODO add session
 	@PostMapping(value = "/addproduct",consumes = {"application/json","application/xml"})
 	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductDTO productDTO,BindingResult bindingResult)
-	{		System.out.println(productDTO);
-	     
+	{
+		
 		if(bindingResult.hasErrors())
 		{
 		
@@ -76,7 +80,7 @@ public class ProductManagementController {
 	}
 	
 	
-	@GetMapping(value="/getproduct/{id}",produces = {"application/json","application/xml"})
+	@GetMapping(value="/getproductbyid/{id}",produces = {"application/json","application/xml"})
 	public ResponseEntity<Object> getProductById(@PathVariable("id") long id)
 	{
 		if(id>0)
@@ -99,15 +103,22 @@ public class ProductManagementController {
 	}
 	
 	//TODO Only valid product master can delete
-	@GetMapping(value="/deleteproduct")
-	public ResponseEntity<Object> deleteProductById(@RequestParam("id") long id)
+	@DeleteMapping(value="/deleteproduct/{id}")
+	public ResponseEntity<Object> deleteProductById(@PathVariable("id") long id)
 	{
 		if(id>0)
 		{
+			if(productService.getProductById(id)!=null)
+			{
 			if(productService.deleteProductById(id))
 				return new ResponseEntity<>("Product Deleted Successfully",HttpStatus.OK);
 			else
 				return new ResponseEntity<>("Either specified id doesn't exist or problem encountered while deleting",HttpStatus.BAD_REQUEST);
+			}
+			else
+			{
+				return new ResponseEntity<>("No Such Product Exist to Delete",HttpStatus.BAD_REQUEST);
+			}
 		}else
 		{
 			return new ResponseEntity<>("Product Id InValid",HttpStatus.BAD_REQUEST);
@@ -116,7 +127,7 @@ public class ProductManagementController {
 	}
 	
 	//TODO only valid product master can update
-	@PutMapping(value="/editproduct",consumes= {"application/json","application/xml"})
+	@PutMapping(value="/updateproduct",consumes= {"application/json","application/xml"})
 	public ResponseEntity<Object> editProduct(@RequestBody ProductDTO productDTO)
 	{
 		if(productDTO!=null)
@@ -130,6 +141,20 @@ public class ProductManagementController {
 		{
 			return new ResponseEntity<>("Provide Valid Entity",HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping(value="viewproductsofproductmaster/{id}",produces= {"application/json"})
+	public ResponseEntity<Object> getProductsOfProductMaster(@PathVariable("id") long id)
+	{
+	    List<ProductDTO> products=productService.getAllProductsOfProductMaster(id);
+	    if(products.size()>0)
+	    {
+	      return new ResponseEntity<>(products,HttpStatus.OK);	
+	    }
+	    else
+	    {
+	    	return new ResponseEntity<>("No Products Found",HttpStatus.BAD_REQUEST);
+	    }
 	}
 	
 }

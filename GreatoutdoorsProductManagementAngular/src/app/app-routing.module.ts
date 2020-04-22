@@ -10,10 +10,10 @@ import { ErrorPageNotFoundComponent } from './error-page-not-found/error-page-no
 
 const routes: Routes = [
   { path: "addproduct", component: AddProductComponent },
-  { path: "editproduct", component: EditProductComponent },
+  { path: "updateproduct", component: EditProductComponent },
   { path: "deleteproduct", component: DeleteProductComponent },
   { path: "getproduct", component: GetProductComponent },
-  { path: "getallproduct", component: GetAllProductComponent },
+  { path: "viewproductsofproductmaster", component: GetAllProductComponent },
   { path: "**", component: ErrorPageNotFoundComponent }
 ];
 

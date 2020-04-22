@@ -1,5 +1,7 @@
 package com.cpg.go.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,7 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public boolean editProduct(ProductDTO productDTO) {
 		//TODO fetch old record and compare with new record
+		//TODO check whether product belongs that particular product master
 		productDao.save(productDTO);
 		return productDao.existsById(productDTO.getProductId());
 	}
@@ -45,6 +48,12 @@ public class ProductServiceImpl implements ProductService{
 	public boolean deleteProductById(long id) {
 		 productDao.deleteById(id);
 		return !productDao.existsById(id);
+	}
+
+	@Override
+	public List<ProductDTO> getAllProductsOfProductMaster(long id)
+	{
+		return productDao.findAllProductsByUserId(id);
 	}
 	
 	

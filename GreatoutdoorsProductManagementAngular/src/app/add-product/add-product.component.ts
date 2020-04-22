@@ -38,7 +38,10 @@ export class AddProductComponent implements OnInit {
       error => {
         console.log("Errors:\n");
         this.exceptionResponse = error.error;
-        console.log(this.exceptionResponse.listOfErrors);
+        if (this.exceptionResponse.listOfErrors == undefined)
+          console.log("Product Added Successfully!");
+        else
+          console.log(this.exceptionResponse.listOfErrors);
       }
     );
 
