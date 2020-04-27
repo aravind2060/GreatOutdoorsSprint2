@@ -3,6 +3,9 @@ package com.cpg.go.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.cpg.go.dao.ProductDAO;
@@ -54,6 +57,13 @@ public class ProductServiceImpl implements ProductService{
 	public List<ProductDTO> getAllProductsOfProductMaster(long id)
 	{
 		return productDao.findAllProductsByUserId(id);
+	}
+
+	@Override
+	public Page<ProductDTO> getAllProductsForUser(int pageNumber) {
+
+		Pageable paging=PageRequest.of(pageNumber,5);
+		return productDao.findAll(paging);
 	}
 	
 	

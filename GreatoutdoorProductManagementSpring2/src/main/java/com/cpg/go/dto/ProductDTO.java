@@ -2,12 +2,14 @@ package com.cpg.go.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -32,19 +34,23 @@ public class ProductDTO {
 	
 	@NotBlank(message = "Product Colour cannot be empty")
 	@Column(name="Product_Colour",nullable = false)
+	@Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$",message = "Product Colour pattern invalid")
 	private String productColour;
 	
 	@NotBlank(message = "Product Dimension cannot be empty")
 	@Column(name="Product_Dimension",nullable = false)
 	@Size(min = 2,max=20,message = "Product Dimension size not valid")
+	@Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$",message = "Product Dimension pattern invalid")
 	private String productDimension;
 	
 	@NotBlank(message = "Product Specification cannot be empty")
 	@Column(name="Product_Specification",nullable = false)
+	@Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$",message = "Product Specification pattern invalid")
 	private String productSpecification;
 	
 	@NotBlank(message = "Product Manufacturer cannot be empty")
 	@Column(name="Product_Manufacturer",nullable = false)
+	@Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$",message = "Product Manufacturer pattern invalid")
 	private String productManufacturer;
     
 	
@@ -60,15 +66,17 @@ public class ProductDTO {
 	
 	@NotBlank(message = "Product Name cannot be empty")
 	@Column(name="Product_Name",nullable = false)
+	@Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$",message = "Product Name pattern invalid")
 	private String productName;
 	
 	@NotBlank(message = "Product Brand cannot be empty")
 	@Column(name="Product_Brand",nullable = false)
 	@Size(min=3,max=25,message="Product Brand Size is not valid")
+	@Pattern(regexp = "^[a-zA-z]+([\\s][a-zA-Z]+)*$",message = "Product Brand pattern invalid")
 	private String productBrand;
     
 	//TODO make @not null
-	@ManyToOne(targetEntity = UserDTO.class)
+	@ManyToOne(targetEntity = UserDTO.class )
 	@JoinColumn(name = "ProductMaster_Id",nullable = false)
 	private UserDTO productMaster;
 	

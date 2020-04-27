@@ -1,90 +1,143 @@
-<form name="myForm" #myForm="ngForm" (ngSubmit)="addProduct(myForm)" class="form-horizontal">
+<div class="container">
+  <h4>{{exceptionResponse.listOfErrors| json}}</h4>
+  <form name="myForm" #myForm="ngForm" (ngSubmit)="addProduct(myForm)" class="form-horizontal">
 
     <div class="form-group">
-        <label for="productId" class="control-label col-sm-2">Product Id:</label>
-        <div class="col-sm-10">
-            <input type="number" id="ngModel" name="productId" [(ngModel)]="productDto.productId" required
-                placeholder="Enter Product Id" />
+      <label for="productId" class="control-label col-sm-2">Product Id:</label>
+      <div class="col-sm-10">
+        <input type="number" #productId="ngModel" name="productId" [(ngModel)]="productDto.productId" required
+          placeholder="Enter Product Id" class="form-control"
+          [class.is-invalid]="productId.invalid && productId.touched" pattern="^[1-9]\d*$" />
+        <div class="alert alert-danger" *ngIf="productId.invalid && productId.touched">
+          <h5 *ngIf="productId.errors?.required" class="text-danger">product Id is required</h5>
+          <h5 *ngIf="productId.errors?.pattern">Product Id Range invalid</h5>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="productName" class="control-label col-sm-2">Product Name:</label>
-        <div class="col-sm-10">
-            <input type="text" id="ngModel" name="productName" [(ngModel)]="productDto.productName" required
-                placeholder="Enter Product Name" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productBrand" class="control-label col-sm-2">Product Brand:</label>
-        <div class="col-sm-10">
-            <input type="text" id="ngModel" name="productBrand" [(ngModel)]="productDto.productBrand" required
-                placeholder="Enter Product Brand" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productPrice" class="control-label col-sm-2">Product Price:</label>
-        <div class="col-sm-10">
-            <input type="number" id="ngModel" name="productPrice" [(ngModel)]="productDto.productPrice" required
-                placeholder="Enter Product Price" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productManufacturer" class="control-label col-sm-2">Product Manufacturer:</label>
-        <div class="col-sm-10">
-            <input type="text" id="ngModel" name="productManufacturer" [(ngModel)]="productDto.productManufacturer"
-                required placeholder="Enter Product Manufacturer" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productSpecification" class="control-label col-sm-2">Product Specification:</label>
-        <div class="col-sm-10">
-            <input type="text" id="ngModel" name="productSpecification" required
-                [(ngModel)]="productDto.productSpecification" placeholder="Enter Product Specification" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productDimension" class="control-label col-sm-2">Product Dimension:</label>
-        <div class="col-sm-10">
-            <input type="text" id="ngModel" name="productDimension" required [(ngModel)]="productDto.productDimension"
-                placeholder="Enter Product Dimension" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productColour" class="control-label col-sm-2">Product Colour:</label>
-        <div class="col-sm-10">
-            <input type="text" id="ngModel" [(ngModel)]="productDto.productColour" name="productColour" required
-                placeholder="Enter Product Colour" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="productQuantity" class="control-label col-sm-2">Product Quantity:</label>
-        <div class="col-sm-10">
-            <input type="number" id="ngModel" [(ngModel)]="productDto.productQuantity" name="productQuantity" required
-                placeholder="Enter Product Quantity" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="radio-inline"><input type="radio" id="ngModel" [(ngModel)]="productDto.productCategory"
-                name="productCategory" value="1" required />Camping
-            Equipment</label>
-        <label class="radio-inline"><input type="radio" id="ngModel" [(ngModel)]="productDto.productCategory"
-                name="productCategory" value="2" required />Golf
-            Equipment</label>
-        <label class="radio-inline"><input type="radio" id="ngModel" [(ngModel)]="productDto.productCategory"
-                name="productCategory" value="3" required />Mountaineering
-            Equipment</label>
-        <label class="radio-inline"><input type="radio" id="ngModel" [(ngModel)]="productDto.productCategory"
-                name="productCategory" value="4" required />Outdoor
-            Protection</label>
-        <label class="radio-inline"><input type="radio" id="ngModel" [(ngModel)]="productDto.productCategory"
-                name="productCategory" value="5" required />Personal
-            Accessories</label>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" [disabled]="!myForm.valid" class="btn btn-default">Add Product</button>
-        </div>
+      </div>
     </div>
 
+    <div class="form-group">
+      <label for="productName" class="control-label col-sm-2">Product Name:</label>
+      <div class="col-sm-10">
+        <input type="text" #productName="ngModel" name="productName" [(ngModel)]="productDto.productName" required
+          placeholder="Enter Product Name" class="form-control"
+          [class.is-invalid]="productName.invalid && productName.touched" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"/>
+        <div class="alert alert-danger" *ngIf="productName.invalid && productName.touched">
+          <h5 class="text-danger" *ngIf="productName.errors?.required">Product Name is required</h5>
+          <h5 class="text-danger" *ngIf="productName.errors?.pattern">Product Name invalid</h5>
+        </div>
+      </div>
+    </div>
 
-</form>
+    <div class="form-group">
+      <label for="productBrand" class="control-label col-sm-2">Product Brand:</label>
+      <div class="col-sm-10">
+        <input type="text" #productBrand="ngModel" name="productBrand" [(ngModel)]="productDto.productBrand" required
+          placeholder="Enter Product Brand" class="form-control"
+          [class.is-invalid]="productBrand.invalid && productBrand.touched" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"/>
+        <div class="alert alert-danger" *ngIf="productBrand.invalid && productBrand.touched" >
+          <h5 class="text-danger" *ngIf="productBrand.errors?.required">Product Brand is required</h5>
+          <h5 class="text-danger" *ngIf="productBrand.errors?.pattern">Product Brand is invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productPrice" class="control-label col-sm-2">Product Price:</label>
+      <div class="col-sm-10">
+        <input type="number" #productPrice="ngModel" name="productPrice" [(ngModel)]="productDto.productPrice" required
+          placeholder="Enter Product Price" class="form-control"
+          [class.is-invalid]="productPrice.invalid && productPrice.touched" pattern="^[1-9]\d*$" />
+        <div class="alert alert-danger" *ngIf="productPrice.invalid && productPrice.touched">
+          <h5 class="text-danger" *ngIf="productPrice.errors?.required">Product Price is required</h5>
+          <h5 class="text-danger" *ngif="productPrice.errors?.pattern">Product Price range invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productManufacturer" class="control-label col-sm-2">Product Manufacturer:</label>
+      <div class="col-sm-10">
+        <input type="text" #productManufacturer="ngModel" name="productManufacturer"
+          [(ngModel)]="productDto.productManufacturer" required placeholder="Enter Product Manufacturer"
+          class="form-control" [class.is-invalid]="productManufacturer.invalid && productManufacturer.touched" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"/>
+        <div class="alert alert-danger" *ngIf="productManufacturer.invalid && productManufacturer.touched">
+          <h5 class="text-danger" *ngIf="productManufacturer.errors?.required">Product Manufacturer is required</h5>
+          <h5 class="text-danger" *ngIf="productManufacturer.errors?.pattern">Product Manufacturer invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productSpecification" class="control-label col-sm-2">Product Specification:</label>
+      <div class="col-sm-10">
+        <input type="text" #productSpecification="ngModel" name="productSpecification" required
+          [(ngModel)]="productDto.productSpecification" placeholder="Enter Product Specification" class="form-control"
+          [class.is-invalid]="productSpecification.invalid && productSpecification.touched" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" />
+        <div class="alert alert-danger" *ngIf="productSpecification.invalid && productSpecification.touched">
+          <h5 class="text-danger" *ngIf="productSpecification.errors?.required">Product Specification is required</h5>
+          <h5 class="text-danger" *ngIf="productSpecification.errors?.pattern">Product Specification invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productDimension" class="control-label col-sm-2">Product Dimension:</label>
+      <div class="col-sm-10">
+        <input type="text" #productDimension="ngModel" name="productDimension" required
+          [(ngModel)]="productDto.productDimension" placeholder="Enter Product Dimension" class="form-control"
+          [class.is-invalid]="productDimension.invalid && productDimension.touched" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$" />
+        <div class="alert alert-danger" *ngIf="productDimension.invalid && productDimension.touched">
+          <h5 class="text-danger" *ngIf="productDimension.errors?.required">Product Dimension is required</h5>
+          <h5 class="text-danger" *ngIf="productDimension.errors?.pattern">Product Dimension Invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productColour" class="control-label col-sm-2">Product Colour:</label>
+      <div class="col-sm-10">
+        <input type="text" #productColour="ngModel" [(ngModel)]="productDto.productColour" name="productColour" required
+          placeholder="Enter Product Colour" class="form-control"
+          [class.is-invalid]="productColour.invalid && productColour.touched" pattern="^[a-zA-z]+([\s][a-zA-Z]+)*$"/>
+        <div class="alert alert-danger" *ngIf="productColour.invalid && productColour.touched">
+          <h5 class="text text-danger" *ngIf="productColour.errors?.required">Product Colour is required</h5>
+          <h5 class="text text-danger" *ngIf="productColour.errors?.pattern">Product Colour invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productQuantity" class="control-label col-sm-2">Product Quantity:</label>
+      <div class="col-sm-10">
+        <input type="number" #productQuantity="ngModel" [(ngModel)]="productDto.productQuantity" name="productQuantity"
+          required placeholder="Enter Product Quantity" class="form-control"
+          [class.is-invalid]="productQuantity.invalid && productQuantity.touched" pattern="^[1-9]\d*$" />
+        <div class="alert alert-danger" *ngIf="productQuantity.invalid && productQuantity.touched">
+          <h5 class="text text-danger" *ngIf="productQuantity.errors?.required">Product Quantity is required</h5>
+          <h5 class="text text-danger" *ngIf="productQuantity.errors?.pattern">Product Quantity Range invalid</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productQuantity" class="control-label col-sm-2">Product Category:</label>
+      <div class="col-sm-10">
+        <select class="custom-select" #productCategory="ngModel" name="productCategory"
+          [(ngModel)]="productDto.productCategory">
+          <option value="1" selected>Camping Equipment</option>
+          <option value="2">Golf Equipment</option>
+          <option value="3">Mountaineering Equipment</option>
+          <option value="4">Outdoor Protection</option>
+          <option value="5">Personal Accessories</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" [disabled]="myForm.form.invalid" class="btn btn-success" type="submit">Add
+          Product</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -34,13 +34,13 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
 	protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		return new ResponseEntity<>("The content type your uploading is not supported",HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("The content type your uploading is not supported",HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 	
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		return new ResponseEntity<>("This Request method is not supported",HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>("This Request method is not supported",HttpStatus.UNSUPPORTED_MEDIA_TYPE);
 	}
 }

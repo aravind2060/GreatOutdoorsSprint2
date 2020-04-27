@@ -1,0 +1,38 @@
+<div class="containerfluid">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th id="productId">Product Id</th>
+                <th id="productName">Product Name</th>
+                <th id="productBrand">Product Brand</th>
+                <th id="productPrice">Product Price</th>
+                <th id="productCategory">Product Category</th>
+                <th id="productSpecification">Product Specification</th>
+                <th id="productManufacturer">Product Manufacturer</th>
+                <th id="productDimension">Product Dimension</th>
+                <th id="productQuantity">Product Quantity</th>
+                <th id="productColour">Product Colour</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let item of productsDto">
+                <td>{{item.productId}}</td>
+                <td>{{item.productName}}</td>
+                <td>{{item.productBrand}}</td>
+                <td>{{item.productPrice}}</td>
+                <td>{{item.productCategory}}</td>
+                <td>{{item.productSpecification}}</td>
+                <td>{{item.productManufacturer}}</td>
+                <td>{{item.productDimension}}</td>
+                <td>{{item.productQuantity}}</td>
+                <td>{{item.productColour}}</td>
+                <td><button type="button" (click)="updateProduct(item.productId)" class="btn btn-primary"
+                        mat-raised-button>Update</button></td>
+                <td><button type="button" mat-raised-button (click)="openDialog(item.productId)"
+                        class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,5 +1,6 @@
 package com.cpg.go.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -72,9 +74,13 @@ public class ProductManagementController {
 		else
 		{
 			if(productService.addProduct(productDTO))
-			 return new ResponseEntity<>("Product Added SuccessFully",HttpStatus.ACCEPTED);
-			else
-				return new ResponseEntity<>("Unable to add product",HttpStatus.BAD_REQUEST);
+			{
+			  List<String> list=new ArrayList<>();
+			  list.add("status:Success");
+			 return new ResponseEntity<>(list,HttpStatus.OK);
+			}
+			 else
+				return new ResponseEntity<>("Unable to add product",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
@@ -110,10 +116,10 @@ public class ProductManagementController {
 		{
 			if(productService.getProductById(id)!=null)
 			{
-			if(productService.deleteProductById(id))
-				return new ResponseEntity<>("Product Deleted Successfully",HttpStatus.OK);
-			else
-				return new ResponseEntity<>("Either specified id doesn't exist or problem encountered while deleting",HttpStatus.BAD_REQUEST);
+			  if(productService.deleteProductById(id))
+				  return new ResponseEntity<>("Product Deleted Successfully",HttpStatus.NO_CONTENT);
+			  else
+				  return new ResponseEntity<>("Either specified id doesn't exist or problem encountered while deleting",HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			else
 			{
@@ -135,7 +141,7 @@ public class ProductManagementController {
 			if(productService.editProduct(productDTO))
 				return new ResponseEntity<>("Product Updated Successfully",HttpStatus.OK);
 			else
-				return new ResponseEntity<>("Either Specified product doesnot belongs to you or some problem encountered  while updating",HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>("Either Specified product doesnot belongs to you or some problem encountered  while updating",HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		else
 		{
@@ -143,7 +149,7 @@ public class ProductManagementController {
 		}
 	}
 	
-	@GetMapping(value="viewproductsofproductmaster/{id}",produces= {"application/json"})
+	@GetMapping(value="/viewproductsofproductmaster/{id}",produces= {"application/json"})
 	public ResponseEntity<Object> getProductsOfProductMaster(@PathVariable("id") long id)
 	{
 	    List<ProductDTO> products=productService.getAllProductsOfProductMaster(id);
@@ -157,4 +163,19 @@ public class ProductManagementController {
 	    }
 	}
 	
+	@GetMapping(value = "/getallproducts/{pageNumber}",produces = {"application/json"})
+	public ResponseEntity<Object> getAllProducts(@PathVariable("pageNumber") int pageNumber)
+	{
+		System.out.println("inside get");
+		Page<ProductDTO> list=productService.getAllProductsForUser(pageNumber);
+		if(list.hasContent())
+		{
+			System.out.println("inside has content");
+			return new ResponseEntity<>(list,HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<>("No Products available",HttpStatus.NO_CONTENT);
+		}
+	}
 }

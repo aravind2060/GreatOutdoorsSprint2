@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ProductDTO } from './Model/ProductDTO';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,11 +13,14 @@ export class ProductServiceService {
   constructor(private httpClient: HttpClient) { }
 
   addProduct(productDto: ProductDTO) {
-    return this.httpClient.post(this.url + "addproduct", productDto);
+
+    return this.httpClient.post(this.url + "addproduct", productDto, { headers: { 'Content-Type': 'application/json' } });
   }
 
-  getProductsWhichBelongsToParticularProductMaster(id: number) {
-    return this.httpClient.get(this.url + "viewproductsofproductmaster/" + id);
+
+
+  getProductsWhichBelongsToParticularProductMaster(productMasterId: number) {
+    return this.httpClient.get(this.url + "viewproductsofproductmaster/" + productMasterId);
   }
 
   getProductById(id: number) {
@@ -25,5 +31,12 @@ export class ProductServiceService {
   }
   deleteProduct(id: number) {
     return this.httpClient.delete(this.url + "deleteproduct/" + id);
+  }
+  getAllProducts() {
+    return this.httpClient.get(this.url + "getallproducts");
+  }
+  getNoOfPagesForProductsOfUser()
+  {
+    return this.httpClient.get(this.url+"");
   }
 }

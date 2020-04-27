@@ -6,24 +6,30 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import { EditProductComponent } from './edit-product/edit-product.component';
-import { DeleteProductComponent } from './delete-product/delete-product.component';
-import { GetProductComponent } from './get-product/get-product.component';
-import { GetAllProductComponent } from './get-all-product/get-all-product.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 import { ErrorPageNotFoundComponent } from './error-page-not-found/error-page-not-found.component';
+import { DisplayproductsforuserComponent } from './displayproductsforuser/displayproductsforuser.component';
+import { DisplayProductsForProductMasterComponent } from './display-products-for-product-master/display-products-for-product-master.component';
+import { DialogBoxForConfirmationsComponent } from './dialog-box-for-confirmations/dialog-box-for-confirmations.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddProductComponent,
     EditProductComponent,
-    DeleteProductComponent,
-    GetProductComponent,
-    GetAllProductComponent,
-    ErrorPageNotFoundComponent
+    ErrorPageNotFoundComponent,
+    DisplayproductsforuserComponent,
+    DisplayProductsForProductMasterComponent,
+    DialogBoxForConfirmationsComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, FormsModule, HttpClientModule
+    AppRoutingModule, FormsModule, HttpClientModule, MatDialogModule, BrowserAnimationsModule, MatButtonModule
+  ],
+  entryComponents: [
+    DialogBoxForConfirmationsComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

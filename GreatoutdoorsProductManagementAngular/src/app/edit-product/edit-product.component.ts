@@ -15,11 +15,12 @@ export class EditProductComponent implements OnInit {
 
   constructor(private productService: ProductServiceService, private dataTransfer: DataTransferBetweenComponentsService, private router: Router) {
 
-    this.idToEdit = dataTransfer.getProductId();
-    this.getProduct();
+
   }
 
   ngOnInit(): void {
+    this.idToEdit = this.dataTransfer.getProductId();
+    this.getProduct();
   }
 
   getProduct() {
@@ -34,7 +35,7 @@ export class EditProductComponent implements OnInit {
       );
     }
     else {
-      this.router.navigate(["/viewproductsofproductmaster"]);
+      this.router.navigate(["/displayproductsforproductmaster"]);
     }
 
   }
@@ -42,12 +43,12 @@ export class EditProductComponent implements OnInit {
   updateProduct() {
     this.productService.updateProduct(this.productDto).subscribe((data) => {
       //TODO change alert to standard pop
-      console.log("Data updated successfully!");
+      console.log("Data updated successfully!"+data);
       alert("Data updated Successfully");
-      this.router.navigate(["/viewproductsofproductmaster"])
+      this.router.navigate(["/displayproductsforproductmaster"]);
     }, error => {
       console.log(error.error);
-      this.router.navigate(["/viewproductsofproductmaster"])
+      this.router.navigate(["/displayproductsforproductmaster"]);
     });
   }
 
