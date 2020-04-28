@@ -18,7 +18,10 @@
     </div>
     <div class="container">
 
-        <ul class="pagination pagination-lg">
-            <li><a href="#" *ngFor="let item of noOfPages;let i=index;" (click)="getPage(i)" >i</a></li>
+        <ul class="pagination pagination-lg justify-content-center">
+            <li class="page-item" [class.active]="currentPage==item" *ngFor="let item of noOfPages;let i=index;">
+                <a class="page-link" (click)="getAllProducts(i)">
+                    {{item+1}}</a>
+            </li>
         </ul>
     </div>

@@ -76,7 +76,7 @@ public class ProductManagementController {
 			if(productService.addProduct(productDTO))
 			{
 			  List<String> list=new ArrayList<>();
-			  list.add("status:Success");
+			  list.add("Success");
 			 return new ResponseEntity<>(list,HttpStatus.OK);
 			}
 			 else
@@ -166,16 +166,27 @@ public class ProductManagementController {
 	@GetMapping(value = "/getallproducts/{pageNumber}",produces = {"application/json"})
 	public ResponseEntity<Object> getAllProducts(@PathVariable("pageNumber") int pageNumber)
 	{
-		System.out.println("inside get");
-		Page<ProductDTO> list=productService.getAllProductsForUser(pageNumber);
-		if(list.hasContent())
+		if(pageNumber<=getTotalNoOfPagesExistForProducts())
 		{
-			System.out.println("inside has content");
-			return new ResponseEntity<>(list,HttpStatus.OK);
+		 Page<ProductDTO> list=productService.getAllProductsForUser(pageNumber);
+		 if(list.hasContent())
+		 {
+			return new ResponseEntity<>(list.getContent(),HttpStatus.OK);
+		 }
+		 else
+		 {
+			return new ResponseEntity<>("No Products available",HttpStatus.BAD_REQUEST);
+		 }
 		}
 		else
 		{
-			return new ResponseEntity<>("No Products available",HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>("Invalid product page requested",HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@GetMapping(value="/noofpagesexistforproducts")
+	public long getTotalNoOfPagesExistForProducts()
+	{
+		return productService.getTotalNoOfPagesExistForProducts();
 	}
 }

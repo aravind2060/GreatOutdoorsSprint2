@@ -14,4 +14,5 @@ public interface ProductService {
 	public boolean deleteProductById(long id);
 	public  List<ProductDTO> getAllProductsOfProductMaster(long id);
 	public Page<ProductDTO> getAllProductsForUser(int pageNumber);
+	public long getTotalNoOfPagesExistForProducts();
 }

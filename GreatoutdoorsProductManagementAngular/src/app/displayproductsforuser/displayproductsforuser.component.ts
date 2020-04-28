@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductDTO } from '../Model/ProductDTO';
 import { ProductServiceService } from '../product-service.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-displayproductsforuser',
@@ -10,40 +11,41 @@ import { ProductServiceService } from '../product-service.service';
 export class DisplayproductsforuserComponent implements OnInit {
 
   products;
-  noOfPages;
+  noOfPages = [];
+  currentPage = 0;
   constructor(private productService: ProductServiceService) {
-    this.getAllProducts();
+    this.getNoOfPagesForProductsOfUser();
+    this.getAllProducts(this.currentPage);
   }
 
   ngOnInit(): void {
 
   }
 
-  getAllProducts() {
-    this.productService.getAllProducts().subscribe((data) => {
-
+  getAllProducts(pageNumber) {
+    this.currentPage = pageNumber;
+    this.productService.getAllProducts(pageNumber).subscribe((data) => {
       this.products = data;
       console.log(this.products);
     }, error => {
       console.log(error.error);
       //TODO change console to ui
     }
+
     );
 
   }
 
   getNoOfPagesForProductsOfUser() {
     this.productService.getNoOfPagesForProductsOfUser().subscribe((data) => {
-      this.noOfPages = data;
+      for (let i = 0; i < data; i++) {
+        this.noOfPages[i] = i;
+      }
 
     }, error => {
       console.log(error.error);
     }
     );
-  }
-
-  getPage(index: number) {
-    //  this.productService.
   }
 
 }

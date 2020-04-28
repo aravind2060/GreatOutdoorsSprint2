@@ -41,7 +41,7 @@ export class AddProductComponent implements OnInit {
         console.log("Error page");
         this.exceptionResponse = error.error;
         this.listOfErrors = this.exceptionResponse.listOfErrors;
-        console.log(this.listOfErrors);
+        console.log(this.listOfErrors.get("productId"));
 
       }
     );

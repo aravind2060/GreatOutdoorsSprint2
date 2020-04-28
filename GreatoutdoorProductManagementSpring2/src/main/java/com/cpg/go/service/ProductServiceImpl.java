@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.cpg.go.dao.ProductDAO;
@@ -61,9 +63,22 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public Page<ProductDTO> getAllProductsForUser(int pageNumber) {
-
-		Pageable paging=PageRequest.of(pageNumber,5);
+		Pageable paging=PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId"));
 		return productDao.findAll(paging);
+	}
+
+	@Override
+	public long getTotalNoOfPagesExistForProducts() 
+	{
+		long noOfPages=productDao.count();
+	    if(noOfPages%5==0)
+	    {
+	    	return noOfPages/5;
+	    }
+	    else
+	    {
+	      return (noOfPages/5)+1;	
+	    }
 	}
 	
 	

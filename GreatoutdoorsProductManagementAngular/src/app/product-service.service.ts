@@ -32,11 +32,11 @@ export class ProductServiceService {
   deleteProduct(id: number) {
     return this.httpClient.delete(this.url + "deleteproduct/" + id);
   }
-  getAllProducts() {
-    return this.httpClient.get(this.url + "getallproducts");
+  getAllProducts(pageNumber:number) {
+    return this.httpClient.get(this.url + "getallproducts/"+pageNumber);
   }
   getNoOfPagesForProductsOfUser()
   {
-    return this.httpClient.get(this.url+"");
+    return this.httpClient.get(this.url+"noofpagesexistforproducts");
   }
 }
