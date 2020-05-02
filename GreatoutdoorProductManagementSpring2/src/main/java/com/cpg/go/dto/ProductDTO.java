@@ -2,7 +2,6 @@ package com.cpg.go.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,10 +14,13 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @Entity
 @Table(name = "ProductDTO_GreatOutdoors")
 @DynamicUpdate
+@JsonIgnoreProperties(value = "productMaster")
 public class ProductDTO {
   
 	@Id

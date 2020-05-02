@@ -5,16 +5,24 @@ import { Injectable } from '@angular/core';
 })
 export class DataTransferBetweenComponentsService {
 
-  productId:number;
+  productId: number;
+  searchKeyword: string;
+
   constructor() { }
 
-  setProductId(id:number)
-  {
-    this.productId=id;
+  setProductId(id: number) {
+    this.productId = id;
   }
 
-  getProductId()
-  {
+  getProductId() {
     return this.productId;
+  }
+
+  setSearchKeyword(searchKeyword: string) {
+    this.searchKeyword = searchKeyword;
+  }
+
+  getSearchKeyword() {
+    return this.searchKeyword;
   }
 }

@@ -13,6 +13,9 @@ import { DisplayproductsforuserComponent } from './displayproductsforuser/displa
 import { DisplayProductsForProductMasterComponent } from './display-products-for-product-master/display-products-for-product-master.component';
 import { DialogBoxForConfirmationsComponent } from './dialog-box-for-confirmations/dialog-box-for-confirmations.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SearchResultsComponent } from './search-results/search-results.component';
+import { MatTableModule } from '@angular/material/table';
+
 
 @NgModule({
   declarations: [
@@ -22,11 +25,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ErrorPageNotFoundComponent,
     DisplayproductsforuserComponent,
     DisplayProductsForProductMasterComponent,
-    DialogBoxForConfirmationsComponent
+    DialogBoxForConfirmationsComponent,
+    SearchResultsComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule, FormsModule, HttpClientModule, MatDialogModule, BrowserAnimationsModule, MatButtonModule
+    AppRoutingModule, FormsModule, HttpClientModule, MatDialogModule, BrowserAnimationsModule, MatButtonModule, MatTableModule
   ],
   entryComponents: [
     DialogBoxForConfirmationsComponent

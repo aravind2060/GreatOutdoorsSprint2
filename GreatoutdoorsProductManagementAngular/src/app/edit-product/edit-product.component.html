@@ -4,8 +4,8 @@
         <div class="form-group">
             <label for="productId" class="control-label col-sm-2">Product Id:</label>
             <div class="col-sm-10">
-                <input type="number" #productId="ngModel" name="productId" [(ngModel)]="productDto.productId" required
-                    class="form-control" readonly />
+                <input type="number" name="productId" [(ngModel)]="productDto.productId" required class="form-control"
+                    readonly />
             </div>
         </div>
 
@@ -126,7 +126,7 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" [disabled]="myForm.form.invalid" class="btn btn-success" type="submit">Add
+                <button type="submit" [disabled]="myForm.form.invalid" class="btn btn-success" type="submit">Update
                     Product</button>
             </div>
         </div>

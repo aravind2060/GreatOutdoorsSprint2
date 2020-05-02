@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-4" *ngFor="let item of products">
+        <div class="col-md-4" *ngFor="let item of queryResponse?.list">
             <figure class="card card-product">
                 <div class="img-wrap"><img src="../../assets/Images/tent.jpg" alt="image of product"></div>
                 <figcaption class="info-wrap">
@@ -11,17 +11,18 @@
                     <a href="" class="btn btn-lg btn-primary float-right stretched-link">Order Now</a>
                     <div class="price-wrap h5">
                         <span class="price-new">&#x20B9;&nbsp; {{item.productPrice}}</span>
-                    </div> <!-- price-wrap.// -->
-                </div> <!-- bottom-wrap.// -->
+                    </div>
+                </div>
             </figure>
         </div>
     </div>
 </div>
+
 <div class="container">
 
     <ul class="pagination pagination-lg justify-content-center">
-        <li class="page-item" [class.active]="currentPage==item" *ngFor="let item of noOfPages;let i=index;">
-            <a class="page-link" (click)="getAllProducts(i)">
+        <li class="page-item" [class.active]="currentPage==item" *ngFor="let item of noOfPages;">
+            <a class="page-link" (click)="getResults(item)">
                 {{item+1}}</a>
         </li>
     </ul>

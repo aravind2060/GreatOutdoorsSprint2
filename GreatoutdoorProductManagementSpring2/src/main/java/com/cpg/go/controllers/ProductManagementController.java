@@ -20,11 +20,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cpg.go.dao.ProductDAO;
 import com.cpg.go.dto.ProductDTO;
+import com.cpg.go.dto.QueryResponseDTO;
 import com.cpg.go.exceptions.ProductException;
 import com.cpg.go.service.ProductServiceImpl;
 
@@ -45,10 +44,13 @@ public class ProductManagementController {
 		if(bindingResult.hasErrors())
 		{
 		
-		  Map<String,Map<String,String>> map=new HashMap<>();	
+		  Map<String,Map<String,String>> map=new HashMap<>();
+		  
 		  bindingResult.getAllErrors().forEach(error->{
+			  
 			    String key=((FieldError)error).getField();
-			   if(map.containsKey(key))
+			  
+			    if(map.containsKey(key))
 			   {
 				   Map<String,String> m=map.get(key);
 				   m.put(error.getCode(), error.getDefaultMessage());
@@ -61,6 +63,7 @@ public class ProductManagementController {
 				   map.put(key,m);
 			   }
 		  });
+		  
 		  throw new ProductException(map);
 		}
 		else if(productService.getProductById(productDTO.getProductId())!=null)
@@ -166,12 +169,16 @@ public class ProductManagementController {
 	@GetMapping(value = "/getallproducts/{pageNumber}",produces = {"application/json"})
 	public ResponseEntity<Object> getAllProducts(@PathVariable("pageNumber") int pageNumber)
 	{
-		if(pageNumber<=getTotalNoOfPagesExistForProducts())
+		if(pageNumber>=0)
 		{
 		 Page<ProductDTO> list=productService.getAllProductsForUser(pageNumber);
 		 if(list.hasContent())
 		 {
-			return new ResponseEntity<>(list.getContent(),HttpStatus.OK);
+			 QueryResponseDTO queryResponsedto=new QueryResponseDTO();
+		    	queryResponsedto.setList(list.getContent());
+		    	queryResponsedto.setCurrentPageNumber(list.getNumber());
+		    	queryResponsedto.setTotalNoOfPages(list.getTotalPages());
+		    	return new ResponseEntity<>(queryResponsedto,HttpStatus.OK);
 		 }
 		 else
 		 {
@@ -184,9 +191,29 @@ public class ProductManagementController {
 		}
 	}
 	
-	@GetMapping(value="/noofpagesexistforproducts")
-	public long getTotalNoOfPagesExistForProducts()
+	
+	
+	@GetMapping(value="/searchproduct/{search}/{pageNumber}")
+	public ResponseEntity<Object> searchProduct(@PathVariable("search") String search,@PathVariable("pageNumber") int pageNumber)
 	{
-		return productService.getTotalNoOfPagesExistForProducts();
+		if(!search.trim().isEmpty())
+		{
+			Page<ProductDTO> list=productService.searchProduct(search,pageNumber);
+		    if(list.hasContent())
+		    {
+		    	QueryResponseDTO queryResponsedto=new QueryResponseDTO();
+		    	queryResponsedto.setList(list.getContent());
+		    	queryResponsedto.setCurrentPageNumber(list.getNumber());
+		    	queryResponsedto.setTotalNoOfPages(list.getTotalPages());
+		    	return new ResponseEntity<>(queryResponsedto,HttpStatus.OK);
+		    }
+		    else
+		    	return new ResponseEntity<>("No product found",HttpStatus.BAD_REQUEST);
+		}
+		else
+		{
+			return new ResponseEntity<>("Please Provide valid Search keyword",HttpStatus.BAD_REQUEST);
+		}
 	}
+	
 }

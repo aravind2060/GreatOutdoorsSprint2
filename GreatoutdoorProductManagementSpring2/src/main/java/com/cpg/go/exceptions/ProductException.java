@@ -4,7 +4,8 @@ import java.util.Map;
 
 public class ProductException extends RuntimeException{
   
-	Map<String,Map<String,String>> errorsmap;
+	private Map<String,Map<String,String>> errorsmap;
+	
 	public ProductException(Map<String,Map<String,String>> map)
 	{
 		this.errorsmap=map;

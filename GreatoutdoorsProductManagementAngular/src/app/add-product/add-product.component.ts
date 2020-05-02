@@ -36,6 +36,7 @@ export class AddProductComponent implements OnInit {
         // console.log("body: " + response.body);
         // console.log("Text: " + response.text);
         console.log(response);
+        myForm.reset();
       },
       (error: HttpErrorResponse) => {
         console.log("Error page");

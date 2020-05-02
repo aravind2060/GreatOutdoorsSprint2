@@ -5,13 +5,15 @@ import { EditProductComponent } from './edit-product/edit-product.component';
 import { ErrorPageNotFoundComponent } from './error-page-not-found/error-page-not-found.component';
 import { DisplayproductsforuserComponent } from './displayproductsforuser/displayproductsforuser.component';
 import { DisplayProductsForProductMasterComponent } from './display-products-for-product-master/display-products-for-product-master.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 
 const routes: Routes = [
   { path: "addproduct", component: AddProductComponent },
   { path: "updateproduct", component: EditProductComponent },
-  {path:"displayproductsforproductmaster",component:DisplayProductsForProductMasterComponent},
+  { path: "displayproductsforproductmaster", component: DisplayProductsForProductMasterComponent },
   { path: "displayproductsforuser", component: DisplayproductsforuserComponent },
+  { path: "searchresultsforproducts", component: SearchResultsComponent },
   { path: "**", component: ErrorPageNotFoundComponent }
 ];
 

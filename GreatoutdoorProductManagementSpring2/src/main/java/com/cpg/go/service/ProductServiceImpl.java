@@ -67,20 +67,11 @@ public class ProductServiceImpl implements ProductService{
 		return productDao.findAll(paging);
 	}
 
-	@Override
-	public long getTotalNoOfPagesExistForProducts() 
-	{
-		long noOfPages=productDao.count();
-	    if(noOfPages%5==0)
-	    {
-	    	return noOfPages/5;
-	    }
-	    else
-	    {
-	      return (noOfPages/5)+1;	
-	    }
-	}
 	
-	
-
+   @Override	
+   public Page<ProductDTO> searchProduct(String search,int pageNumber)
+   {
+	  
+	   return productDao.searchProducts(search,PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId")));
+   }
 }

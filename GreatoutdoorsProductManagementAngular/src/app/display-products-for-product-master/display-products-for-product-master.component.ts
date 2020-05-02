@@ -22,20 +22,23 @@ export class DisplayProductsForProductMasterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
   }
 
 
   getAllProductsOfProductMaster() {
-    this.productService.getProductsWhichBelongsToParticularProductMaster(101).subscribe((data) => {
+    this.productService.getProductsWhichBelongsToParticularProductMaster(101).subscribe(
+      (data) => {
 
-      this.productsDto = data;
-      console.log(this.productsDto);
-    }, error => {
-      console.log(error.error);
-      if (error.error == "No Products Found")
-        this.productsDto = null;
+        this.productsDto = data;
+        console.log(this.productsDto);
+      },
+      error => {
+        console.log(error.error);
+        if (error.error == "No Products Found")
+          this.productsDto = null;
 
-    });
+      });
   }
 
   updateProduct(id: number) {
