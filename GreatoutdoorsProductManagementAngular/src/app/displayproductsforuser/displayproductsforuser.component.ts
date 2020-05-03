@@ -25,24 +25,23 @@ export class DisplayproductsforuserComponent implements OnInit {
 
   getAllProducts(pageNumber) {
     this.currentPage = pageNumber;
-    this.productService.getAllProducts(pageNumber).subscribe(
-    (data:QueryResponse) =>
-      {
-      this.products = data.list;
-      for(let i:number=0;i<data.totalNoOfPages;i++)
-          this.noOfPages[i]=i;
-          
-      console.log(this.products);
+    this.productService.getAllProducts(102, pageNumber).subscribe(
+      (data: QueryResponse) => {
+        this.products = data.list;
+        for (let i: number = 0; i < data.totalNoOfPages; i++)
+          this.noOfPages[i] = i;
+
+        console.log(this.products);
       }
-    , error => {
-      console.log(error.error);
-      //TODO change console to ui
-    }
+      , error => {
+        console.log(error.error);
+        //TODO change console to ui
+      }
 
     );
 
   }
 
-  
+
 
 }

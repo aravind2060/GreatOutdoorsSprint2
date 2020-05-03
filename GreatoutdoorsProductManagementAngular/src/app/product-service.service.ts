@@ -12,28 +12,28 @@ export class ProductServiceService {
   url: string = "http://localhost:8084/";
   constructor(private httpClient: HttpClient) { }
 
-  addProduct(productDto: ProductDTO) {
+  addProduct(productMasterId:number,productDto: ProductDTO) {
 
-    return this.httpClient.post(this.url + "addproduct", productDto, { headers: { 'Content-Type': 'application/json' } });
+    return this.httpClient.post(this.url + "addproduct/"+productMasterId, productDto, { headers: { 'Content-Type': 'application/json' } });
   }
 
 
 
-  getProductsWhichBelongsToParticularProductMaster(productMasterId: number) {
-    return this.httpClient.get(this.url + "viewproductsofproductmaster/" + productMasterId);
+  getProductsWhichBelongsToParticularProductMaster(productMasterId: number, pageNumber: number) {
+    return this.httpClient.get(this.url + "getproductsofproductmaster/" + productMasterId + "/" + pageNumber);
   }
 
-  getProductById(id: number) {
-    return this.httpClient.get(this.url + "getproductbyid/" + id);
+  getProductById(productId: number) {
+    return this.httpClient.get(this.url + "getproductbyid/" + productId);
   }
-  updateProduct(productDto: ProductDTO) {
-    return this.httpClient.put(this.url + "updateproduct", productDto);
+  updateProduct(productMasterId:number,productDto: ProductDTO) {
+    return this.httpClient.put(this.url + "updateproduct/"+productMasterId, productDto);
   }
-  deleteProduct(id: number) {
-    return this.httpClient.delete(this.url + "deleteproduct/" + id);
+  deleteProduct(productMasterId:number,productId: number) {
+    return this.httpClient.delete(this.url + "deleteproduct/" +productMasterId+"/"+productId);
   }
-  getAllProducts(pageNumber: number) {
-    return this.httpClient.get(this.url + "getallproducts/" + pageNumber);
+  getAllProducts(userId:number,pageNumber: number) {
+    return this.httpClient.get(this.url + "getproductsofuser/"+userId+"/" + pageNumber);
   }
 
 

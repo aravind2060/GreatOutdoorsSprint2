@@ -18,7 +18,6 @@ export class AppComponent {
   searchProduct() {
 
     if (this.search?.toString().trim().length > 0) {
-
       this.dataTransferService.setSearchKeyword(this.search);
       this.router.navigate(["/searchresultsforproducts"]);
     }

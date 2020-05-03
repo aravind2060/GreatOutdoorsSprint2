@@ -1,19 +1,25 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4" *ngFor="let item of products">
-            <figure class="card card-product">
-                <div class="img-wrap"><img src="../../assets/Images/tent.jpg" alt="image of product"></div>
-                <figcaption class="info-wrap">
-                    <h4 class="title">{{item.productName}}</h4>
-                    <p class="desc">{{item.productSpecification}}</p>
-                </figcaption>
-                <div class="bottom-wrap">
-                    <a href="" class="btn btn-lg btn-primary float-right stretched-link">Order Now</a>
-                    <div class="price-wrap h5">
-                        <span class="price-new">&#x20B9;&nbsp; {{item.productPrice}}</span>
-                    </div> <!-- price-wrap.// -->
-                </div> <!-- bottom-wrap.// -->
-            </figure>
+            <mat-card class="example-card">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"></div>
+                    <mat-card-title>{{item.productName}}</mat-card-title>
+                    <mat-card-subtitle></mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                    alt="Photo of a Shiba Inu">
+                <mat-card-content>
+                    <p>{{item.productSpecification}}</p>
+                    <p>&#x20B9;&nbsp;{{item.productPrice}}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary">Order now</button>
+                    <button mat-button>
+                        <mat-icon color="primary">favorite</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
         </div>
     </div>
 </div>

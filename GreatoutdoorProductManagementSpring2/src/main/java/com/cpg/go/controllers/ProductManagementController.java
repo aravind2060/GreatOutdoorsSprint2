@@ -1,8 +1,6 @@
 package com.cpg.go.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -37,8 +35,8 @@ public class ProductManagementController {
 	ProductServiceImpl productService;
 	
 	//TODO add session
-	@PostMapping(value = "/addproduct",consumes = {"application/json","application/xml"})
-	public ResponseEntity<Object> addProduct(@Valid @RequestBody ProductDTO productDTO,BindingResult bindingResult)
+	@PostMapping(value = "/addproduct/{productMasterId}",consumes = {"application/json","application/xml"})
+	public ResponseEntity<Object> addProduct(@PathVariable("productMasterId") long productMasterId, @Valid @RequestBody ProductDTO productDTO,BindingResult bindingResult)
 	{
 		
 		if(bindingResult.hasErrors())
@@ -66,7 +64,7 @@ public class ProductManagementController {
 		  
 		  throw new ProductException(map);
 		}
-		else if(productService.getProductById(productDTO.getProductId())!=null)
+		else if(productDTO.getProductId()!=null && productService.getProductById(productDTO.getProductId())!=null)
 		{
 			HashMap<String,Map<String,String>> map=new HashMap<>();
 			HashMap<String,String> m=new HashMap<>();
@@ -76,11 +74,9 @@ public class ProductManagementController {
 		}
 		else
 		{
-			if(productService.addProduct(productDTO))
+			if(productService.addProduct(productDTO,productMasterId))
 			{
-			  List<String> list=new ArrayList<>();
-			  list.add("Success");
-			 return new ResponseEntity<>(list,HttpStatus.OK);
+			 return new ResponseEntity<>("product Added Successfully!",HttpStatus.OK);
 			}
 			 else
 				return new ResponseEntity<>("Unable to add product",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -111,15 +107,14 @@ public class ProductManagementController {
 		}
 	}
 	
-	//TODO Only valid product master can delete
-	@DeleteMapping(value="/deleteproduct/{id}")
-	public ResponseEntity<Object> deleteProductById(@PathVariable("id") long id)
+	@DeleteMapping(value="/deleteproduct/{productMasterId}/{productid}")
+	public ResponseEntity<Object> deleteProductById(@PathVariable("productMasterId") long productMasterId, @PathVariable("productid") long productId)
 	{
-		if(id>0)
+		if(productId>0)
 		{
-			if(productService.getProductById(id)!=null)
+			if(productService.getProductById(productId)!=null)
 			{
-			  if(productService.deleteProductById(id))
+			  if(productService.deleteProductById(productId,productMasterId))
 				  return new ResponseEntity<>("Product Deleted Successfully",HttpStatus.NO_CONTENT);
 			  else
 				  return new ResponseEntity<>("Either specified id doesn't exist or problem encountered while deleting",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -135,13 +130,12 @@ public class ProductManagementController {
 		
 	}
 	
-	//TODO only valid product master can update
-	@PutMapping(value="/updateproduct",consumes= {"application/json","application/xml"})
-	public ResponseEntity<Object> editProduct(@RequestBody ProductDTO productDTO)
+	@PutMapping(value="/updateproduct/{productMasterId}",consumes= {"application/json","application/xml"})
+	public ResponseEntity<Object> updateProduct(@PathVariable("productMasterId") Long productMasterId,@RequestBody ProductDTO productDTO)
 	{
-		if(productDTO!=null)
+		if(productDTO!=null && productDTO.getProductId()!=null && productService.getProductById(productDTO.getProductId())!=null)
 		{
-			if(productService.editProduct(productDTO))
+			if(productService.updateProduct(productDTO,productMasterId))
 				return new ResponseEntity<>("Product Updated Successfully",HttpStatus.OK);
 			else
 				return new ResponseEntity<>("Either Specified product doesnot belongs to you or some problem encountered  while updating",HttpStatus.INTERNAL_SERVER_ERROR);
@@ -152,26 +146,37 @@ public class ProductManagementController {
 		}
 	}
 	
-	@GetMapping(value="/viewproductsofproductmaster/{id}",produces= {"application/json"})
-	public ResponseEntity<Object> getProductsOfProductMaster(@PathVariable("id") long id)
+	@GetMapping(value="/getproductsofproductmaster/{productMasterId}/{pageNumber}",produces= {"application/json"})
+	public ResponseEntity<Object> getProductsOfProductMaster(@PathVariable("productMasterId") long productMasterId,@PathVariable("pageNumber") int pageNumber)
 	{
-	    List<ProductDTO> products=productService.getAllProductsOfProductMaster(id);
-	    if(products.size()>0)
+	    if(productMasterId>0 && pageNumber>=0)
 	    {
-	      return new ResponseEntity<>(products,HttpStatus.OK);	
+	      Page<ProductDTO> list=productService.getAllProductsOfProductMaster(productMasterId, pageNumber);
+	    	if(list.hasContent())
+	    	{
+	    		QueryResponseDTO queryResponsedto=new QueryResponseDTO();
+		    	queryResponsedto.setList(list.getContent());
+		    	queryResponsedto.setCurrentPageNumber(list.getNumber());
+		    	queryResponsedto.setTotalNoOfPages(list.getTotalPages());
+		    	return new ResponseEntity<>(queryResponsedto,HttpStatus.OK);	
+	    	}
+	    	else
+	    	{
+				return new ResponseEntity<>("No Products available",HttpStatus.BAD_REQUEST);	
+	    	}
 	    }
 	    else
 	    {
-	    	return new ResponseEntity<>("No Products Found",HttpStatus.BAD_REQUEST);
+	    	return new ResponseEntity<>("Either productMasterid invalid or pageNumber invalid",HttpStatus.BAD_REQUEST);
 	    }
 	}
 	
-	@GetMapping(value = "/getallproducts/{pageNumber}",produces = {"application/json"})
-	public ResponseEntity<Object> getAllProducts(@PathVariable("pageNumber") int pageNumber)
+	@GetMapping(value = "/getproductsofuser/{userId}/{pageNumber}",produces = {"application/json"})
+	public ResponseEntity<Object> getProductsOfUser(@PathVariable("userId") Long userId,@PathVariable("pageNumber") int pageNumber)
 	{
 		if(pageNumber>=0)
 		{
-		 Page<ProductDTO> list=productService.getAllProductsForUser(pageNumber);
+		 Page<ProductDTO> list=productService.getAllProductsForUser(userId,pageNumber);
 		 if(list.hasContent())
 		 {
 			 QueryResponseDTO queryResponsedto=new QueryResponseDTO();

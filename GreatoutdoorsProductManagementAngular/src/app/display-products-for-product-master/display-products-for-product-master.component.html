@@ -1,22 +1,24 @@
 <div class="containerfluid">
-    <table class="mat-elevation-z8" mat-table>
+    <table class="table table-hover mat-elevation-z8" style="margin: 5px;">
         <thead>
             <tr>
-                <th id="productId">Product Id</th>
-                <th id="productName">Product Name</th>
-                <th id="productBrand">Product Brand</th>
-                <th id="productPrice">Product Price</th>
-                <th id="productCategory">Product Category</th>
-                <th id="productSpecification">Product Specification</th>
-                <th id="productManufacturer">Product Manufacturer</th>
-                <th id="productDimension">Product Dimension</th>
-                <th id="productQuantity">Product Quantity</th>
-                <th id="productColour">Product Colour</th>
+                <th id="product=Id"> Id</th>
+                <th id="productName"> Name</th>
+                <th id="productBrand"> Brand</th>
+                <th id="productPrice"> Price</th>
+                <th id="productCategory">Category</th>
+                <th id="productSpecification">Specification</th>
+                <th id="productManufacturer">Manufacturer</th>
+                <th id="productDimension">Dimension</th>
+                <th id="productQuantity">Quantity</th>
+                <th id="productColour">Colour</th>
+                <th id="edit">Edit</th>
+                <th id="delete">Delete</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr *ngFor="let item of productsDto">
+            <tr *ngFor="let item of queryResponse?.list">
                 <td>{{item.productId}}</td>
                 <td>{{item.productName}}</td>
                 <td>{{item.productBrand}}</td>
@@ -27,10 +29,21 @@
                 <td>{{item.productDimension}}</td>
                 <td>{{item.productQuantity}}</td>
                 <td>{{item.productColour}}</td>
-                <td><button type="button" (click)="updateProduct(item.productId)" class="btn btn-primary"
-                        mat-raised-button>Update</button></td>
-                <td><button type="button" mat-raised-button (click)="openDialog(item.productId)"
-                        class="btn btn-danger">Delete</button>
+                <td>
+                    <button type="button" (click)="updateProduct(item.productId)" color="primary" mat-mini-fab>
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+                <td><button type="button" mat-mini-fab (click)="openDialog(item.productId)" color="warn">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <!-- TODO add paginator -->
+                    <!-- <mat-paginator [length]="queryResponse.totalNoOfPages" [pageSize]="5" [pageSizeOptions]="5">
+                    </mat-paginator> -->
                 </td>
             </tr>
         </tbody>

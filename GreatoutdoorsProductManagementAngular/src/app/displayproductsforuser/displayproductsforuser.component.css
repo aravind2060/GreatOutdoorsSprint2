@@ -24,3 +24,13 @@
 .card-product .price-old {
     color: #999;
 }
+
+.example-card {
+    max-width: 400px;
+    margin-bottom: 20px;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }

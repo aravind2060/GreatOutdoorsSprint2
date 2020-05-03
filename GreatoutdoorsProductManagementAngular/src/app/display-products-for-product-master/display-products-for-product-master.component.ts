@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductServiceService } from '../product-service.service';
 import { ProductDTO } from '../Model/ProductDTO';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataTransferBetweenComponentsService } from '../data-transfer-between-components.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogBoxForConfirmationsComponent } from '../dialog-box-for-confirmations/dialog-box-for-confirmations.component';
-
+import { QueryResponse } from '../Model/QueryResponse';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'DisplayProductsForProductMaster',
@@ -14,29 +17,35 @@ import { DialogBoxForConfirmationsComponent } from '../dialog-box-for-confirmati
 })
 export class DisplayProductsForProductMasterComponent implements OnInit {
 
-  productsDto;
+  queryResponse: QueryResponse;
+  currentPage = 0;
+  dataSource;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private productService: ProductServiceService, private dataTransfer: DataTransferBetweenComponentsService, private router: Router, public dialog: MatDialog) {
-    this.getAllProductsOfProductMaster();
+  displayedColumns: string[] = ['productId', 'productName', 'productBrand', 'productPrice', 'productCategory', 'productSpecification', 'productManufacturer', 'productDimension', 'productQuantity', 'productColour'];
+
+  constructor(private productService: ProductServiceService, private dataTransfer: DataTransferBetweenComponentsService, private router: Router, public dialog: MatDialog, private _snackBar: MatSnackBar) {
 
   }
 
   ngOnInit(): void {
+    this.getAllProductsOfProductMaster();
 
+    this.dataSource = new MatTableDataSource(this.queryResponse?.list);
+    this.dataSource.sort = this.sort;
   }
 
 
   getAllProductsOfProductMaster() {
-    this.productService.getProductsWhichBelongsToParticularProductMaster(101).subscribe(
-      (data) => {
+    this.productService.getProductsWhichBelongsToParticularProductMaster(101, this.currentPage).subscribe(
+      (data: QueryResponse) => {
 
-        this.productsDto = data;
-        console.log(this.productsDto);
+        this.queryResponse = data;
+        console.log(this.queryResponse.list);
       },
       error => {
         console.log(error.error);
-        if (error.error == "No Products Found")
-          this.productsDto = null;
+
 
       });
   }
@@ -46,12 +55,14 @@ export class DisplayProductsForProductMasterComponent implements OnInit {
     this.router.navigate(["/updateproduct"]);
   }
 
-  deleteProduct(id: number) {
-    this.productService.deleteProduct(id).subscribe((data) => {
+  deleteProduct(productId: number) {
+    this.productService.deleteProduct(101, productId).subscribe((data) => {
       console.log("Product Deleted Successfully");
+      this.openSnackBar("Product Deleted Successfully");
       this.getAllProductsOfProductMaster();
     }, error => {
       console.log(error.error);
+      this.openSnackBar("Some thing Wrong!");
       this.getAllProductsOfProductMaster();
     })
   }
@@ -59,7 +70,7 @@ export class DisplayProductsForProductMasterComponent implements OnInit {
   openDialog(id: number): void {
     const dialogRef = this.dialog.open(DialogBoxForConfirmationsComponent, {
       width: '250px',
-      height: '600px',
+      height: '200px',
       autoFocus: true,
       disableClose: true,
       closeOnNavigation: true
@@ -69,5 +80,10 @@ export class DisplayProductsForProductMasterComponent implements OnInit {
         this.deleteProduct(id);
     });
   }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message)._dismissAfter(3 * 1000);
+  }
+
 
 }

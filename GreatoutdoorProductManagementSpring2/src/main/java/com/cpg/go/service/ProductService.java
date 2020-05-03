@@ -1,6 +1,5 @@
 package com.cpg.go.service;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 
@@ -8,12 +7,13 @@ import com.cpg.go.dto.ProductDTO;
 
 public interface ProductService {
 
-	public ProductDTO getProductById(long id);
-	public boolean addProduct(ProductDTO productDTO);
-	public boolean editProduct(ProductDTO productDTO);
-	public boolean deleteProductById(long id);
-	public  List<ProductDTO> getAllProductsOfProductMaster(long id);
-	public Page<ProductDTO> getAllProductsForUser(int pageNumber);
-	public Page<ProductDTO> searchProduct(String search,int pageNumber);
+	public ProductDTO getProductById(Long productId);
+	public boolean addProduct(ProductDTO productDTO,Long productMasterId);
+	public boolean updateProduct(ProductDTO productDTO,Long productMasterId);
+	public boolean deleteProductById(Long productId,Long productMasterId);
+	public Page<ProductDTO> getAllProductsOfProductMaster(Long productMasterId,int pageNumber);
+	public Page<ProductDTO> getAllProductsForUser(Long userId,int pageNumber);
+	public Page<ProductDTO> searchProduct(String searchKeyWord,int pageNumber);
+	
 
 }

@@ -1,6 +1,5 @@
 package com.cpg.go.service;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +10,6 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.cpg.go.dao.ProductDAO;
-import com.cpg.go.dao.UserDAO;
 import com.cpg.go.dto.ProductDTO;
 import com.cpg.go.dto.UserDTO;
 
@@ -21,57 +19,138 @@ public class ProductServiceImpl implements ProductService{
 	@Autowired
 	ProductDAO productDao;
 	
-	@Override
-	public ProductDTO getProductById(long id) {
-		return productDao.findById(id).orElse(null);
-	}
-
-	@Override
-	public boolean addProduct(ProductDTO productDTO) {
-	   UserDTO user=new UserDTO();
-	   user.setUserId(101);
-	   user.setUserName("aravind");
-	   user.setUserpassword("123");
-	   user.setUserRole(2);
-	   user.setUseremail("aravind4532@gmail.com");
-	   user.setUserphoneNumber("9866772522");
-	   productDTO.setProductMaster(user);
-	   productDao.save(productDTO);
+	@Autowired
+	UserService userService;
 	
-		return productDao.existsById(productDTO.getProductId());
+	@Override
+	public ProductDTO getProductById(Long productId) {
+		return productDao.findById(productId).orElse(null);
 	}
 
 	@Override
-	public boolean editProduct(ProductDTO productDTO) {
+	public boolean addProduct(ProductDTO productDTO,Long productMasterId) {
+	   UserDTO user=userService.getUserById(productMasterId);
+		if(user!=null)
+		{
+		   if(user.getUserRole()==2)
+		   {
+			   productDTO.setProductMaster(user);
+			   productDao.save(productDTO);
+			return productDao.existsById(productDTO.getProductId());  
+		   }
+		   else
+			   return false;
+		}
+		else
+		{
+			return false;
+		}
+	   
+	}
+
+	@Override
+	public boolean updateProduct(ProductDTO productDTO,Long productMasterId) {
 		//TODO fetch old record and compare with new record
 		//TODO check whether product belongs that particular product master
-		productDao.save(productDTO);
-		return productDao.existsById(productDTO.getProductId());
+		UserDTO user=userService.getUserById(productMasterId);
+		if(user!=null)
+		{
+		   if(user.getUserRole()==2)
+		   {
+			  ProductDTO p=getProductById(productDTO.getProductId());
+			 if(p.getProductMaster().getUserId()==productMasterId)
+			 {
+				 productDTO.setProductMaster(user);
+				   productDao.save(productDTO);
+				return productDao.existsById(productDTO.getProductId());  
+			 }
+			 else
+			 {
+				 return false;
+			 }
+		   }
+		   else
+			   return false;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
+	
 	@Override
-	public boolean deleteProductById(long id) {
-		 productDao.deleteById(id);
-		return !productDao.existsById(id);
+	public boolean deleteProductById(Long productId,Long productMasterId) {
+		UserDTO user=userService.getUserById(productMasterId);
+		if(user!=null)
+		{
+		   if(user.getUserRole()==2)
+		   {
+			  ProductDTO p=getProductById(productId);
+			 if(p.getProductMaster().getUserId()==productMasterId)
+			 {
+				    productDao.deleteById(productId);
+					return !productDao.existsById(productId);  
+			 }
+			 else
+			 {
+				 return false;
+			 }
+		   }
+		   else
+			   return false;
+		}
+		else
+		{
+			return false;
+		}
+		 
 	}
-
+	
 	@Override
-	public List<ProductDTO> getAllProductsOfProductMaster(long id)
+	public Page<ProductDTO> getAllProductsOfProductMaster(Long productMasterId,int pageNumber)
 	{
-		return productDao.findAllProductsByUserId(id);
+		
+		UserDTO user=userService.getUserById(productMasterId);
+		if(user!=null)
+		{
+			if(user.getUserRole()==2)
+			{
+				Pageable paging=PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId"));
+				return productDao.findAllProductsByUserId(productMasterId,paging); 	
+			}
+			else
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return null;
+		}
 	}
-
+	
 	@Override
-	public Page<ProductDTO> getAllProductsForUser(int pageNumber) {
-		Pageable paging=PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId"));
-		return productDao.findAll(paging);
+	public Page<ProductDTO> getAllProductsForUser(Long userId,int pageNumber) {
+		UserDTO user=userService.getUserById(userId);
+		if(user!=null)
+		{
+			  Pageable paging=PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId"));
+				return productDao.findAll(paging);  
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	
    @Override	
-   public Page<ProductDTO> searchProduct(String search,int pageNumber)
+   public Page<ProductDTO> searchProduct(String searchKeyword,int pageNumber)
    {
 	  
-	   return productDao.searchProducts(search,PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId")));
+	   return productDao.searchProducts(searchKeyword,PageRequest.of(pageNumber,5,Sort.by(Direction.ASC, "productId")));
    }
+   
+   
 }

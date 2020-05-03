@@ -2,6 +2,8 @@ package com.cpg.go.dto;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -25,8 +27,7 @@ public class ProductDTO {
   
 	@Id
 	@Column(name = "Product_Id",nullable = false)
-	@Range(min=1,max=Long.MAX_VALUE,message="Product Id InValid")
-	@NotNull(message="Product Id cannot be empty")
+    @GeneratedValue(strategy = GenerationType.AUTO)
 	private Long productId;
 	
 	@NotNull(message = "Product Price cannot be empty")
@@ -90,11 +91,11 @@ public class ProductDTO {
 		this.productMaster = productMaster;
 	}
 
-	public long getProductId() {
+	public Long getProductId() {
 		return productId;
 	}
 
-	public void setProductId(long productId) {
+	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 

@@ -5,6 +5,8 @@ import { ProductDTO } from '../Model/ProductDTO';
 import { ExceptionResponse } from '../Model/ExceptionResponse';
 import { strict } from 'assert';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-add-product',
@@ -17,7 +19,7 @@ export class AddProductComponent implements OnInit {
   exceptionResponse: ExceptionResponse = new ExceptionResponse();
   listOfErrors: Map<string, Map<string, string>>;
 
-  constructor(private productService: ProductServiceService) { }
+  constructor(private productService: ProductServiceService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -25,32 +27,39 @@ export class AddProductComponent implements OnInit {
 
   addProduct(myForm: NgForm) {
 
-
-
-    this.productService.addProduct(this.productDto).subscribe(
-      (response) => {
+    this.productService.addProduct(101, this.productDto).subscribe(
+      (data) => {
         console.log("inside success!");
-        // let data = response.json();
-        // console.log("Data :" + data);
-        // console.log("Status text: " + response.statusText);
-        // console.log("body: " + response.body);
-        // console.log("Text: " + response.text);
-        console.log(response);
-        myForm.reset();
+        this.openSnackBar("Product Added Successfully!");
+        console.log(data);
+        myForm.resetForm();
       },
-      (error: HttpErrorResponse) => {
-        console.log("Error page");
-        this.exceptionResponse = error.error;
-        this.listOfErrors = this.exceptionResponse.listOfErrors;
-        console.log(this.listOfErrors.get("productId"));
+      (error: ExceptionResponse) => {
+        console.log("Error Block");
+        if (error == undefined) {
+          this.openSnackBar("Product Added Successfully");
+          myForm.resetForm();
+        }
+        else {
+          if (error.listOfErrors == undefined) {
+            this.openSnackBar("product Added Successfully");
+            myForm.resetForm();
+          }
+          else {
+            console.log(error.listOfErrors);
+            this.openSnackBar("Some thing wrong!");
+          }
+        }
 
       }
     );
     //this.calling();
   }
 
-  calling() {
-    console.log(this.listOfErrors.forEach(data => console.log(data.get("NotUnique"))));
+
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message)._dismissAfter(3 * 1000);
   }
 
 
