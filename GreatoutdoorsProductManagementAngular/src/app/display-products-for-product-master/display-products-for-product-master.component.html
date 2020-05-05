@@ -1,24 +1,86 @@
-<div class="containerfluid">
-    <table class="table table-hover mat-elevation-z8" style="margin: 5px;">
+<mat-toolbar color="primary" style="margin-bottom: 20px;" class="mat-elevation-z3">
+    <mat-toolbar-row>
+        <h1 class="mat-h1">Product Master's products</h1>
+    </mat-toolbar-row>
+</mat-toolbar>
+<div class="container">
+    <img *ngIf="queryResponse==null" src="../../assets/Images/no-product-found.jpg" alt="No Products Found">
+    <mat-form-field *ngIf="queryResponse?.list.length>0" appearance="outline">
+        <mat-label>Filter</mat-label>
+        <input matInput placeholder="Type productName" [(ngModel)]="filter">
+    </mat-form-field>
+    <table class="table table-hover mat-elevation-z8" style="margin: 5px;" *ngIf="queryResponse!=null">
         <thead>
             <tr>
-                <th id="product=Id"> Id</th>
-                <th id="productName"> Name</th>
-                <th id="productBrand"> Brand</th>
-                <th id="productPrice"> Price</th>
-                <th id="productCategory">Category</th>
-                <th id="productSpecification">Specification</th>
-                <th id="productManufacturer">Manufacturer</th>
-                <th id="productDimension">Dimension</th>
-                <th id="productQuantity">Quantity</th>
-                <th id="productColour">Colour</th>
-                <th id="edit">Edit</th>
+                <th id="productId"> Id
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedById" (click)="sortById()" alt="up-arrow"
+                        style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedById"
+                        style="height: 20px;width: 20px;" (click)="sortById()" alt="DownArrow" />
+                </th>
+                <th id="productName"> Name
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByName" (click)="sortByName()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByName"
+                        style="height: 20px;width: 20px;" (click)="sortByName()" alt="DownArrow" />
+                </th>
+                <th id="productBrand"> Brand
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByBrand" (click)="sortByBrand()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByBrand"
+                        style="height: 20px;width: 20px;" (click)="sortByBrand()" alt="DownArrow" />
+                </th>
+                <th id="productPrice"> Price
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByPrice" (click)="sortByPrice()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByPrice"
+                        style="height: 20px;width: 20px;" (click)="sortByPrice()" alt="DownArrow" />
+                </th>
+                <th id="productCategory">Category
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByCategory" (click)="sortByCategory()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByCategory"
+                        style="height: 20px;width: 20px;" (click)="sortByCategory()" alt="DownArrow" />
+                </th>
+                <th id="productSpecification">Specification
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedBySpecification"
+                        (click)="sortBySpecification()" alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedBySpecification"
+                        style="height: 20px;width: 20px;" (click)="sortBySpecification()" alt="DownArrow" />
+                </th>
+                <th id="productManufacturer">Manufacturer
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByManufacturer"
+                        (click)="sortByManufacturer()" alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByManufacturer"
+                        style="height: 20px;width: 20px;" (click)="sortByManufacturer()" alt="DownArrow" />
+                </th>
+                <th id="productDimension">Dimension
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByDimension" (click)="sortByDimension()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByDimension"
+                        style="height: 20px;width: 20px;" (click)="sortByDimension()" alt="DownArrow" />
+                </th>
+                <th id="productQuantity">Quantity
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByQuantity" (click)="sortByQuantity()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByQuantity"
+                        style="height: 20px;width: 20px;" (click)="sortByQuantity()" alt="DownArrow" />
+                </th>
+                <th id="productColour">Colour
+                    <img src="../../assets/Images/up-arrow.png" *ngIf="isSortedByColour" (click)="sortByColour()"
+                        alt="up-arrow" style="height: 20px;width: 20px;" />
+                    <img src="../../assets/Images/down-arrow.png" *ngIf="!isSortedByColour"
+                        style="height: 20px;width: 20px;" (click)="sortByColour()" alt="DownArrow" />
+                </th>
+                <th id="edit">Edit
+
+                </th>
                 <th id="delete">Delete</th>
             </tr>
         </thead>
 
         <tbody>
-            <tr *ngFor="let item of queryResponse?.list">
+            <tr *ngFor="let item of queryResponse?.list | filterproduct:filter">
                 <td>{{item.productId}}</td>
                 <td>{{item.productName}}</td>
                 <td>{{item.productBrand}}</td>
@@ -41,9 +103,13 @@
             </tr>
             <tr>
                 <td colspan="12">
-                    <!-- TODO add paginator -->
-                    <!-- <mat-paginator [length]="queryResponse.totalNoOfPages" [pageSize]="5" [pageSizeOptions]="5">
-                    </mat-paginator> -->
+                    <ul class="pagination pagination-lg justify-content-center">
+                        <li class="page-item" [class.active]="queryResponse?.currentPageNumber==i"
+                            *ngFor="let item of noOfPages;let i=index;">
+                            <a class="page-link" (click)="getAllProductsOfProductMaster(i)">
+                                {{i+1}}</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         </tbody>

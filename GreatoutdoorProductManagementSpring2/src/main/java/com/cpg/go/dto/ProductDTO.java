@@ -63,9 +63,8 @@ public class ProductDTO {
 	private Integer productQuantity;
 	
 	@Column(name="Product_Category",nullable = false)
-	@Range(min = 1,max=5,message = "Product Category InValid")
 	@NotNull(message="Product Category cannot be empty")
-	private Integer productCategory;
+	private String productCategory;
 	
 	@NotBlank(message = "Product Name cannot be empty")
 	@Column(name="Product_Name",nullable = false)
@@ -147,11 +146,11 @@ public class ProductDTO {
 		this.productQuantity = quantity;
 	}
 
-	public int getProductCategory() {
+	public String getProductCategory() {
 		return productCategory;
 	}
 
-	public void setProductCategory(int productCategory) {
+	public void setProductCategory(String productCategory) {
 		this.productCategory = productCategory;
 	}
 

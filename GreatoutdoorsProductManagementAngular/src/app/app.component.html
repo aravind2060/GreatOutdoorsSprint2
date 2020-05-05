@@ -1,24 +1,16 @@
-<nav class="navbar navbar-inverse navbar-expand-lg navbar-light ">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#" style="font-style: normal;color: whitesmoke;">WebSiteName</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a [routerLink]="['/addproduct']">Addproduct</a></li>
-            <li><a [routerLink]="['/displayproductsforproductmaster']">Product Master's products</a></li>
-            <li><a [routerLink]="['/displayproductsforuser']">Products</a></li>
-        </ul>
-        <form class="navbar-form navbar-left" action="/action_page.php">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search" name="search" [(ngModel)]="search">
-                <div class="input-group-btn">
-                    <button class="btn btn-success" (click)="searchProduct()" type="submit">
-                        <em class="glyphicon glyphicon-search"></em>
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
-</nav>
+<mat-toolbar color="primary" class="mat-elevation-z20">
+    <mat-toolbar-row>
+        <a mat-button [routerLink]="['/']" routerLinkActive="active">GreatOutdoors</a>
+        <a mat-button [routerLink]="['/addproduct']" routerLinkActice="active"
+            *ngIf="currentUser.getCurrentUser()?.userRole==2">Add Product</a>
+        <a mat-button [routerLink]="['/displayproductsforproductmaster']" routerLinkActive="active"
+            *ngIf="currentUser.getCurrentUser()?.userRole==2">Product Master's
+            Products</a>
+        <a mat-button [routerLink]="['/displayproductsforuser']" routerLinkActice="active">Product's Of User</a>
+    </mat-toolbar-row>
+
+
+</mat-toolbar>
+
+
 <router-outlet></router-outlet>

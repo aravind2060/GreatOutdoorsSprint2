@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { QueryResponse } from '../Model/QueryResponse';
-import { DataTransferBetweenComponentsService } from '../data-transfer-between-components.service';
+import { QueryResponse } from '../Model/QueryResponse'
+import { DataTransferBetweenComponentsService } from '../services/data-transfer-between-components.service';
 import { Router } from '@angular/router';
-import { ProductServiceService } from '../product-service.service';
+import { ProductServiceService } from '../services/product-service.service';
 
 @Component({
   selector: 'app-search-results',

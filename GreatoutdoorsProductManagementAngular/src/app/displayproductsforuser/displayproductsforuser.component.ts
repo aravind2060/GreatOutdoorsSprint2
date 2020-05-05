@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductDTO } from '../Model/ProductDTO';
-import { ProductServiceService } from '../product-service.service';
+import { ProductDTO } from '../Model/ProductDTO'
+import { ProductServiceService } from '../services/product-service.service';
 import { HttpResponse } from '@angular/common/http';
-import { QueryResponse } from '../Model/QueryResponse';
+import { QueryResponse } from '../Model/QueryResponse'
+import { CurrentLoggedUserService } from '../services/current-logged-user.service';
 
 @Component({
   selector: 'app-displayproductsforuser',
@@ -11,11 +12,11 @@ import { QueryResponse } from '../Model/QueryResponse';
 })
 export class DisplayproductsforuserComponent implements OnInit {
 
-  products;
+  queryResponse:QueryResponse;
   noOfPages = [];
   currentPage = 0;
 
-  constructor(private productService: ProductServiceService) {
+  constructor(private productService: ProductServiceService, private currentUser: CurrentLoggedUserService) {
     this.getAllProducts(this.currentPage);
   }
 
@@ -25,13 +26,11 @@ export class DisplayproductsforuserComponent implements OnInit {
 
   getAllProducts(pageNumber) {
     this.currentPage = pageNumber;
-    this.productService.getAllProducts(102, pageNumber).subscribe(
+    this.productService.getAllProducts(this.currentUser.getCurrentUser().userId, pageNumber).subscribe(
       (data: QueryResponse) => {
-        this.products = data.list;
-        for (let i: number = 0; i < data.totalNoOfPages; i++)
-          this.noOfPages[i] = i;
-
-        console.log(this.products);
+        this.queryResponse = data;
+        this.noOfPages=new Array(this.queryResponse.totalNoOfPages);
+        console.log(this.queryResponse.list);
       }
       , error => {
         console.log(error.error);

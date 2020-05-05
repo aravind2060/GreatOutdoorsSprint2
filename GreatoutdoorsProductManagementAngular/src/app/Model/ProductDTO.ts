@@ -3,7 +3,7 @@ export class ProductDTO
     productId:number;
     productName:string;
     productBrand:string;
-    productCategory:number;
+    productCategory:string;
     productQuantity:number;
     productDimension:string;
     productSpecification:string;

@@ -1,6 +1,7 @@
 package com.cpg.go.controllers;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,39 +15,47 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cpg.go.dao.UserDAO;
 import com.cpg.go.dto.UserDTO;
+import com.cpg.go.service.UserService;
 
 @RestController
 @CrossOrigin
+@RequestMapping(value="/user")
 public class UserManagementController {
 
 	@Autowired
-	UserDAO userDao;
+	UserService userService;
 	
-	@PostMapping(value="/signin",consumes = {"application/json"})
-	public ResponseEntity<Object> signin(@RequestAttribute(name = "user_email",required = true) String userEmail,@RequestAttribute(name="user_password",required = true) String userPassword)
+//	@PostMapping(value="/signin/{userName}/{userPassword}",consumes = {"application/json"})
+//	public ResponseEntity<Object> signin(@RequestAttribute(name = "userName",required = true) String userName,@RequestAttribute(name="userPassword",required = true) String userPassword)
+//	{
+//		 UserDTO user=userService.findByuserEmail(userEmail);
+//		 if(user==null)
+//		 {
+//			 return new ResponseEntity<>(new HashMap<>().put("Email", "Email Id Doesn't Exist"),HttpStatus.BAD_REQUEST);
+//		 }
+//		 else
+//		 {
+//			 if(user.getUserpassword().contentEquals(userPassword))
+//			 {
+//				 
+//				return new ResponseEntity<>("",HttpStatus.OK); 
+//			 }
+//			 else
+//			 {
+//				 return new ResponseEntity<>(new HashMap<>().put("Password", "Password is inCorrect"),HttpStatus.BAD_REQUEST);
+//			 }
+//		 }
+//	}
+//	
+	
+	public UserDTO getUser(@PathVariable("id") long userId)
 	{
-		 UserDTO user=userDao.findByuserEmail(userEmail);
-		 if(user==null)
-		 {
-			 return new ResponseEntity<>(new HashMap<>().put("Email", "Email Id Doesn't Exist"),HttpStatus.BAD_REQUEST);
-		 }
-		 else
-		 {
-			 if(user.getUserpassword().contentEquals(userPassword))
-			 {
-				 
-				return new ResponseEntity<>("",HttpStatus.OK); 
-			 }
-			 else
-			 {
-				 return new ResponseEntity<>(new HashMap<>().put("Password", "Password is inCorrect"),HttpStatus.BAD_REQUEST);
-			 }
-		 }
+		return userService.getUserById(userId);
 	}
 	
-	@RequestMapping(value="getuser/{id}")
-	public UserDTO getUser(@PathVariable("id") long id)
-	{
-		return userDao.findById(id).orElse(null);
-	}
+//	@PostMapping(value = "/signup/{userId}")
+//	public ResponseEntity<Object> signUp(@PathVariable("userId")Optional<String> userId)
+//	{
+//		
+//	}
 }

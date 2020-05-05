@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -23,11 +24,10 @@ public class UserDTO {
 	@Id
 	@Column(name = "User_Id",nullable = false)
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Range(min=1,max=Long.MAX_VALUE,message="User Id InValid")
 	private long userId;
 	
 	@NotBlank(message = "User Name cannot be empty")
-	@Column(name="User_Name",nullable = false)
+	@Column(name="User_Name",unique=true,nullable = false)
 	@Size(min = 2,max=25,message="User Name size is not in range")
 	private String userName;
 	
@@ -43,7 +43,7 @@ public class UserDTO {
 	
 	@NotBlank(message = "User Email cannot be empty")
 	@Column(name="User_Email",unique = true,nullable = false)
-	@Pattern(regexp="",message="User Email InValid")
+	@Email(message = "Email Not Valid")
 	private String userEmail;
 	
 	//TODO Check from where role is getting created

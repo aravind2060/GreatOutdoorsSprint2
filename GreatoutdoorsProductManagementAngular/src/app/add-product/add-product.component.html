@@ -1,3 +1,8 @@
+<mat-toolbar color="primary" style="margin-bottom: 20px;" class="mat-elevation-z3">
+  <mat-toolbar-row>
+    <h1 class="mat-h1">AddProduct</h1>
+  </mat-toolbar-row>
+</mat-toolbar>
 <div class="container">
   <form name="myForm" #myForm="ngForm" (ngSubmit)="addProduct(myForm)" class="form-horizontal">
 
@@ -98,11 +103,11 @@
         <mat-label>Choose product Category</mat-label>
         <mat-select id="productCategory" name="productCategory" [(ngModel)]="productDto.productCategory"
           #productCategory="ngModel" required>
-          <mat-option value="1">Camping Equipment</mat-option>
-          <mat-option value="2">Golf Equipment</mat-option>
-          <mat-option value="3">Mountaineering Equipment</mat-option>
-          <mat-option value="4">Outdoor Protection</mat-option>
-          <mat-option value="5">Personal Accessories</mat-option>
+          <mat-option value="Camping Equipment">Camping Equipment</mat-option>
+          <mat-option value="Golf Equipment">Golf Equipment</mat-option>
+          <mat-option value="Mountaineering Equipment">Mountaineering Equipment</mat-option>
+          <mat-option value="Outdoor Protection">Outdoor Protection</mat-option>
+          <mat-option value="Personal Accessories">Personal Accessories</mat-option>
         </mat-select>
         <mat-error *ngIf="productCategory.errors?.required">Product Category Required</mat-error>
       </mat-form-field>

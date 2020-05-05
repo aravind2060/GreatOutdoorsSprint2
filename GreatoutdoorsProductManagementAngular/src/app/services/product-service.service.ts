@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
-import { ProductDTO } from './Model/ProductDTO';
+import { ProductDTO } from '../Model/ProductDTO'
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
@@ -9,12 +9,12 @@ import { throwError } from 'rxjs';
 })
 export class ProductServiceService {
 
-  url: string = "http://localhost:8084/";
+  url: string = "http://localhost:8084/product/";
   constructor(private httpClient: HttpClient) { }
 
-  addProduct(productMasterId:number,productDto: ProductDTO) {
+  addProduct(productMasterId: number, productDto: ProductDTO) {
 
-    return this.httpClient.post(this.url + "addproduct/"+productMasterId, productDto, { headers: { 'Content-Type': 'application/json' } });
+    return this.httpClient.post(this.url + "addproduct/" + productMasterId, productDto, { headers: { 'Content-Type': 'application/json' } });
   }
 
 
@@ -26,14 +26,14 @@ export class ProductServiceService {
   getProductById(productId: number) {
     return this.httpClient.get(this.url + "getproductbyid/" + productId);
   }
-  updateProduct(productMasterId:number,productDto: ProductDTO) {
-    return this.httpClient.put(this.url + "updateproduct/"+productMasterId, productDto);
+  updateProduct(productMasterId: number, productDto: ProductDTO) {
+    return this.httpClient.put(this.url + "updateproduct/" + productMasterId, productDto);
   }
-  deleteProduct(productMasterId:number,productId: number) {
-    return this.httpClient.delete(this.url + "deleteproduct/" +productMasterId+"/"+productId);
+  deleteProduct(productMasterId: number, productId: number) {
+    return this.httpClient.delete(this.url + "deleteproduct/" + productMasterId + "/" + productId);
   }
-  getAllProducts(userId:number,pageNumber: number) {
-    return this.httpClient.get(this.url + "getproductsofuser/"+userId+"/" + pageNumber);
+  getAllProducts(userId: number, pageNumber: number) {
+    return this.httpClient.get(this.url + "getproductsofuser/" + userId + "/" + pageNumber);
   }
 
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cpg.go.dto.ProductDTO;
@@ -25,14 +26,36 @@ import com.cpg.go.dto.QueryResponseDTO;
 import com.cpg.go.exceptions.ProductException;
 import com.cpg.go.service.ProductServiceImpl;
 
+
+/**
+ * {@link ProductManagementController} is RestController class which consist
+ *  add,update,delete,read products
+ * *created on:21-APR-2020 
+ * @author aravind 
+ * 
+ *  
+ */
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:4200")
+@RequestMapping(value="/product")
 public class ProductManagementController {
 
 	
-
+ 
 	@Autowired
 	ProductServiceImpl productService;
+	
+	/**
+	 * Method: addProduct
+	 * Description:ProductMaster can able to add products.
+	 * @param productMasterId only valid productMaster can add products
+	 * @param productDTO product which he wants to add
+	 * @param bindingResult is default interface of spring which validates input without moving to service
+	 * @throws ProductException
+     * @returns  {@link ProductDTO} which consist message and {@link HttpStatus}}
+	 * @author aravind
+	 * *created on:21-APR-2020
+	 */
 	
 	//TODO add session
 	@PostMapping(value = "/addproduct/{productMasterId}",consumes = {"application/json","application/xml"})
@@ -84,13 +107,21 @@ public class ProductManagementController {
 		
 	}
 	
-	
-	@GetMapping(value="/getproductbyid/{id}",produces = {"application/json","application/xml"})
-	public ResponseEntity<Object> getProductById(@PathVariable("id") long id)
+	/**
+	 * Method Name : getProductById<br/>
+	 * Description :ProductMaster can able to get {@link ProductDTO}.<br/>
+	 * fetches products if product belongs to that productmaster otherwise returns message<br/>
+	 * @param productMasterId only valid productMaster can get {@link ProductDTO}
+	 * @returns {@link ProductDTO} which consist message and {@link HttpStatus}}
+	 * @author aravind
+	 * *created on:21-APR-2020
+	 */
+	@GetMapping(value="/getproductbyid/{productId}",produces = {"application/json","application/xml"})
+	public ResponseEntity<Object> getProductById(@PathVariable("productId") long productId)
 	{
-		if(id>0)
+		if(productId>0)
 		{
-		  ProductDTO product=productService.getProductById(id);
+		  ProductDTO product=productService.getProductById(productId);
 		  
 		  if(product==null)
 		  {
@@ -106,7 +137,16 @@ public class ProductManagementController {
 			return new ResponseEntity<>("Product Id InValid",HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+	/**
+	 * Method Name : deleteProductById<br/>
+	 * Description :ProductMaster can able to delete products.<br/>
+	 * delete products if product belongs to that productmaster otherwise returns message<br/>
+	 * @param productMasterId only valid productMaster can delete products
+	 * @param productId product which he wants to delete
+	 * @returns Success or failure which consist message and {@link HttpStatus}}
+	 * @author aravind
+	 * *created on:21-APR-2020
+	 */
 	@DeleteMapping(value="/deleteproduct/{productMasterId}/{productid}")
 	public ResponseEntity<Object> deleteProductById(@PathVariable("productMasterId") long productMasterId, @PathVariable("productid") long productId)
 	{
@@ -129,7 +169,16 @@ public class ProductManagementController {
 		}
 		
 	}
-	
+	/**
+	 * Method Name : updateProduct<br/>
+	 * Description :ProductMaster can able to update product.<br/>
+	 * update product if product belongs to that productmaster otherwise returns message<br/>
+	 * @param productMasterId only valid productMaster can update product
+	 * @param {@link ProductDTO} product which he wants to update
+	 * @returns Success or failure which consist message and {@link HttpStatus}}
+	 * @author aravind
+	 * *created on:21-APR-2020
+	 */
 	@PutMapping(value="/updateproduct/{productMasterId}",consumes= {"application/json","application/xml"})
 	public ResponseEntity<Object> updateProduct(@PathVariable("productMasterId") Long productMasterId,@RequestBody ProductDTO productDTO)
 	{
@@ -145,7 +194,13 @@ public class ProductManagementController {
 			return new ResponseEntity<>("Provide Valid Entity",HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+	/**
+	 * Method Name : getProductsOfProductMaster <br/>
+	 * Description :                  <br/>
+	 * @param productMasterId
+	 * @param pageNumber
+	 * @return
+	 */
 	@GetMapping(value="/getproductsofproductmaster/{productMasterId}/{pageNumber}",produces= {"application/json"})
 	public ResponseEntity<Object> getProductsOfProductMaster(@PathVariable("productMasterId") long productMasterId,@PathVariable("pageNumber") int pageNumber)
 	{

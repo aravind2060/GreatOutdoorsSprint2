@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductServiceService } from '../product-service.service';
-import { DataTransferBetweenComponentsService } from '../data-transfer-between-components.service';
+import { ProductServiceService } from '../services/product-service.service';
+import { DataTransferBetweenComponentsService } from '../services/data-transfer-between-components.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { CurrentLoggedUserService } from '../services/current-logged-user.service';
+import { ProductDTO } from '../Model/ProductDTO'
 
 @Component({
   selector: 'app-edit-product',
@@ -11,23 +13,25 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class EditProductComponent implements OnInit {
 
-  productDto;
+  productDto: ProductDTO = new ProductDTO();
   idToEdit: number;
 
-  constructor(private productService: ProductServiceService, private dataTransfer: DataTransferBetweenComponentsService, private router: Router, private _snackBar: MatSnackBar) {
-
-
+  constructor(private productService: ProductServiceService, private dataTransfer: DataTransferBetweenComponentsService, private router: Router, private _snackBar: MatSnackBar, private currentUser: CurrentLoggedUserService) {
   }
 
   ngOnInit(): void {
-    this.idToEdit = this.dataTransfer.getProductId();
-    this.getProduct();
+    if (this.currentUser.getCurrentUser()?.userRole != 2)
+      this.router.navigate(['/']);
+    else {
+      this.idToEdit = this.dataTransfer.getProductId();
+      this.getProduct();
+    }
   }
 
   getProduct() {
     if (this.idToEdit > 0) {
       this.productService.getProductById(this.idToEdit).subscribe(
-        (data) => {
+        (data: ProductDTO) => {
           this.productDto = data;
           console.log(this.productDto);
         },
@@ -43,7 +47,7 @@ export class EditProductComponent implements OnInit {
   }
 
   updateProduct() {
-    this.productService.updateProduct(101, this.productDto).subscribe(
+    this.productService.updateProduct(this.currentUser.getCurrentUser().userId, this.productDto).subscribe(
       (data) => {
 
         this.openSnackBar("Data updated Successfully!")

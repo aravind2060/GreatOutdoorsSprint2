@@ -1,5 +1,8 @@
 table {
     width: 100%;
+    font-family: Roboto,Helvetica Neue,sans-serif;
   }
- 
-  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  } 

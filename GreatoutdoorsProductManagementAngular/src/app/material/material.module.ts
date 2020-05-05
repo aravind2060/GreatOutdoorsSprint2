@@ -11,9 +11,10 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select'
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 const MaterialComponents = [
-  MatTableModule, MatButtonModule, MatDialogModule, MatIconModule, MatCardModule, MatButtonToggleModule, MatPaginatorModule, MatSnackBarModule, MatStepperModule, MatFormFieldModule, MatInputModule, MatSelectModule
+  MatTableModule, MatButtonModule, MatDialogModule, MatIconModule, MatCardModule, MatButtonToggleModule, MatPaginatorModule, MatSnackBarModule, MatStepperModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatToolbarModule
 ]
 
 @NgModule({

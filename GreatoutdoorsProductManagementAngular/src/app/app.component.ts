@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { DataTransferBetweenComponentsService } from './data-transfer-between-components.service';
+import { DataTransferBetweenComponentsService } from './services/data-transfer-between-components.service';
 import { Router } from '@angular/router';
+import { CurrentLoggedUserService } from './services/current-logged-user.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent {
   title = 'GreatoutdoorsProductManagementAngular';
   search: string;
 
-  constructor(private dataTransferService: DataTransferBetweenComponentsService, private router: Router) {
+  constructor(private dataTransferService: DataTransferBetweenComponentsService, private router: Router, public currentUser: CurrentLoggedUserService) {
 
   }
 
