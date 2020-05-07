@@ -26,30 +26,24 @@ public class UserDTO {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long userId;
 	
-	@NotBlank(message = "User Name cannot be empty")
-	@Column(name="User_Name",unique=true,nullable = false)
-	@Size(min = 2,max=25,message="User Name size is not in range")
+	@Column(name="User_Name",nullable = false)
+	@Pattern(regexp = "[a-z]{1,}[a-z0-9]*",message = "userName InValid")
 	private String userName;
 	
-	@NotBlank(message = "User Password cannot be empty")
 	@Column(name="User_Password",nullable = false)
-	@Pattern(regexp = "",message="User Password InValid")
+	//@Pattern(regexp = "",message="User Password InValid")
 	private String userPassword;
 	
-	@NotBlank(message = "User Phone Number cannot be empty")
 	@Column(name="User_PhoneNumber",nullable=false)
-	@Pattern(regexp="",message="User Phone Number InValid")
+	@Pattern(regexp="[6-9]{1}\\d{9}",message="User Phone Number InValid")
 	private String userPhoneNumber;
 	
-	@NotBlank(message = "User Email cannot be empty")
-	@Column(name="User_Email",unique = true,nullable = false)
-	@Email(message = "Email Not Valid")
-	private String userEmail;
-	
-	//TODO Check from where role is getting created
-	@Column(name="User_Role")
+	@Column(name="User_Email",nullable = false)
+	@Pattern(message = "Email Not Valid",regexp = "[a-z_.]+@[a-z]+[.]{1,}[a-z]+")
+	private String userEmail;	
+
+	@Column(name="User_Role",nullable=false)
 	@Range(min=1,max=3,message="User role InValid")
-	@NotNull(message="User Role cannot be empty")
 	private Integer userRole;
 
 	public long getUserId() {
@@ -68,40 +62,46 @@ public class UserDTO {
 		this.userName = userName;
 	}
 
-	public String getUserpassword() {
+	public String getUserPassword() {
 		return userPassword;
 	}
 
-	public void setUserpassword(String userpassword) {
-		this.userPassword = userpassword;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
-	public String getUserphoneNumber() {
+	public String getUserPhoneNumber() {
 		return userPhoneNumber;
 	}
 
-	public void setUserphoneNumber(String userphoneNumber) {
-		this.userPhoneNumber = userphoneNumber;
+	public void setUserPhoneNumber(String userPhoneNumber) {
+		this.userPhoneNumber = userPhoneNumber;
 	}
 
-	public String getUseremail() {
+	public String getUserEmail() {
 		return userEmail;
 	}
 
-	public void setUseremail(String useremail) {
-		this.userEmail = useremail;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 
-	public int getUserRole() {
+	public Integer getUserRole() {
 		return userRole;
 	}
 
-	public void setUserRole(int role) {
-		this.userRole = role;
+	public void setUserRole(Integer userRole) {
+		this.userRole = userRole;
 	}
+
+	@Override
+	public String toString() {
+		return "UserDTO [userId=" + userId + ", userName=" + userName + ", userPassword=" + userPassword
+				+ ", userPhoneNumber=" + userPhoneNumber + ", userEmail=" + userEmail + ", userRole=" + userRole + "]";
+	}
+
+
 	
-	
-    	
 	
 	
 }

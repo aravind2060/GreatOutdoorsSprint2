@@ -12,7 +12,11 @@ import org.springframework.stereotype.Service;
 import com.cpg.go.dao.ProductDAO;
 import com.cpg.go.dto.ProductDTO;
 import com.cpg.go.dto.UserDTO;
-
+/**
+ * {@link ProductServiceImpl} is a service class which consist of add,read,delete,search,update products
+ * @author aravind
+ *
+ */
 @Service
 public class ProductServiceImpl implements ProductService{
 
@@ -21,6 +25,7 @@ public class ProductServiceImpl implements ProductService{
 	
 	@Autowired
 	UserService userService;
+	
 	
 	@Override
 	public ProductDTO getProductById(Long productId) {
@@ -50,8 +55,6 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public boolean updateProduct(ProductDTO productDTO,Long productMasterId) {
-		//TODO fetch old record and compare with new record
-		//TODO check whether product belongs that particular product master
 		UserDTO user=userService.getUserById(productMasterId);
 		if(user!=null)
 		{
@@ -129,7 +132,14 @@ public class ProductServiceImpl implements ProductService{
 			return null;
 		}
 	}
-	
+	/**
+	 * Method Name : getProductsOfUser <br/>
+	 * Description : product's will be returned ,Pagination has been implemented   <br/>
+	 * @param userId 
+	 * @param pageNumber
+	 * @return List of products will be returned if userid and pagenumber is valid
+	 * 
+	 */
 	@Override
 	public Page<ProductDTO> getAllProductsForUser(Long userId,int pageNumber) {
 		UserDTO user=userService.getUserById(userId);
@@ -144,7 +154,14 @@ public class ProductServiceImpl implements ProductService{
 		}
 	}
 
-	
+	/**
+	 * Method Name : searchProduct <br/>
+	 * Description : search's products which starts with given letter or word   and with pagenumber<br/>
+	 * @param searchKeyword
+	 * @param pageNumber
+	 * @return List of products will be returned if searchkeyword is valid and pagenumber is valid
+	 * 
+	 */
    @Override	
    public Page<ProductDTO> searchProduct(String searchKeyword,int pageNumber)
    {

@@ -1,4 +1,4 @@
-<!-- <mat-toolbar color="primary" style="margin-bottom: 20px;" class="mat-elevation-z3">
+<mat-toolbar color="primary" style="margin-bottom: 20px;" class="mat-elevation-z3">
     <mat-toolbar-row>
         <h1 class="mat-h1">Sign Up</h1>
     </mat-toolbar-row>
@@ -44,8 +44,7 @@
             <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>User Password</mat-label>
                 <input matInput [type]="hide ? 'password' : 'text'" id="userPassword" #userPassword="ngModel"
-                    [(ngModel)]="userDto.userPassword" required
-                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,8}$">
+                    [(ngModel)]="userDto.userPassword" required name="userPassword" pattern="">
                 <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                     [attr.aria-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
@@ -72,4 +71,4 @@
             </div>
         </div>
     </form>
-</div> -->
+</div>

@@ -20,8 +20,13 @@ export class AppComponent {
 
     if (this.search?.toString().trim().length > 0) {
       this.dataTransferService.setSearchKeyword(this.search);
+      this.search = "";
       this.router.navigate(["/searchresultsforproducts"]);
     }
 
+  }
+
+  logout() {
+    this.currentUser.setCurrentUser(null);
   }
 }

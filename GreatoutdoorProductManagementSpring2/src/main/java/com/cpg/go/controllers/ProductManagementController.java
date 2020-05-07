@@ -29,11 +29,9 @@ import com.cpg.go.service.ProductServiceImpl;
 
 /**
  * {@link ProductManagementController} is RestController class which consist
- *  add,update,delete,read products
+ *  add,update,delete,read,search products
  * *created on:21-APR-2020 
  * @author aravind 
- * 
- *  
  */
 @RestController
 @CrossOrigin("http://localhost:4200")
@@ -196,10 +194,11 @@ public class ProductManagementController {
 	}
 	/**
 	 * Method Name : getProductsOfProductMaster <br/>
-	 * Description :                  <br/>
-	 * @param productMasterId
+	 * Description : product master's list of products will be delivered,Pagination has been implemented   <br/>
+	 * @param productMasterId 
 	 * @param pageNumber
-	 * @return
+	 * @return List of products will be returned if productmasterid is valid else error message
+	 * 
 	 */
 	@GetMapping(value="/getproductsofproductmaster/{productMasterId}/{pageNumber}",produces= {"application/json"})
 	public ResponseEntity<Object> getProductsOfProductMaster(@PathVariable("productMasterId") long productMasterId,@PathVariable("pageNumber") int pageNumber)
@@ -225,7 +224,14 @@ public class ProductManagementController {
 	    	return new ResponseEntity<>("Either productMasterid invalid or pageNumber invalid",HttpStatus.BAD_REQUEST);
 	    }
 	}
-	
+	/**
+	 * Method Name : getProductsOfUser <br/>
+	 * Description : product's will be returned ,Pagination has been implemented   <br/>
+	 * @param userId 
+	 * @param pageNumber
+	 * @return List of products will be returned if userid and pagenumber is valid
+	 * 
+	 */
 	@GetMapping(value = "/getproductsofuser/{userId}/{pageNumber}",produces = {"application/json"})
 	public ResponseEntity<Object> getProductsOfUser(@PathVariable("userId") Long userId,@PathVariable("pageNumber") int pageNumber)
 	{
@@ -252,7 +258,14 @@ public class ProductManagementController {
 	}
 	
 	
-	
+	/**
+	 * Method Name : searchProduct <br/>
+	 * Description : search's products which starts with given letter or word  <br/>
+	 * @param searchKeyword 
+	 * @param pageNumber
+	 * @return List of products will be returned if searchkeyword is valid and pagenumber is valid
+	 * 
+	 */
 	@GetMapping(value="/searchproduct/{search}/{pageNumber}")
 	public ResponseEntity<Object> searchProduct(@PathVariable("search") String search,@PathVariable("pageNumber") int pageNumber)
 	{

@@ -24,6 +24,12 @@ public class GlobalExceptionHandlerController extends ResponseEntityExceptionHan
 		return new ResponseEntity<>(exceptionResponse,HttpStatus.BAD_REQUEST);
 	}
 	
+	@ExceptionHandler(value=LoginException.class)
+	public ResponseEntity<Object> handleLoginException(LoginException exception)
+	{
+		return new ResponseEntity<>(exception.getErrorsMap(),HttpStatus.BAD_REQUEST);
+	}
+	
 	@Override
 	protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {

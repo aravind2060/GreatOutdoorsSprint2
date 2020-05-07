@@ -3,3 +3,43 @@
         <h1 class="mat-h1">SignIn</h1>
     </mat-toolbar-row>
 </mat-toolbar>
+<div class="container">
+    <form name="myForm" #myForm="ngForm" (ngSubmit)="signIn(myForm)" class="form-horizontal">
+
+        <div class="form-group">
+            <label for="userName" class="control-label">User Name:</label>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>User Name</mat-label>
+                <input matInput type="text" placeholder="Ex. aravind" id="userName" #userName="ngModel" name="userName"
+                    [(ngModel)]="userDto.userName" required pattern="[a-z]{1,}[a-z0-9]*">
+                <mat-error *ngIf="userName.errors?.required">User Name is required</mat-error>
+                <mat-error *ngIf="userName.errors?.pattern">User Name invalid</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div class="form-group">
+            <label for="userPassword" class="control-label">User Password:</label>
+            <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>User Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" id="userPassword" #userPassword="ngModel"
+                    [(ngModel)]="userDto.userPassword" required name="userPassword"
+                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{4,8}$">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                    [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="userPassword.errors?.required">User Password is required</mat-error>
+                <mat-error *ngIf="userPassword.errors?.pattern">User Password invalid</mat-error>
+            </mat-form-field>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button mat-raised-button [disabled]="myForm.form.invalid" color="primary" type="submit">Sign In
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

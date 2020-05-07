@@ -1,12 +1,30 @@
 <mat-toolbar color="primary" class="mat-elevation-z20">
     <mat-toolbar-row>
-        <a mat-button [routerLink]="['/']" routerLinkActive="active">GreatOutdoors</a>
+        <a mat-button>GreatOutdoors</a>
         <a mat-button [routerLink]="['/addproduct']" routerLinkActice="active"
             *ngIf="currentUser.getCurrentUser()?.userRole==2">Add Product</a>
         <a mat-button [routerLink]="['/displayproductsforproductmaster']" routerLinkActive="active"
             *ngIf="currentUser.getCurrentUser()?.userRole==2">Product Master's
             Products</a>
-        <a mat-button [routerLink]="['/displayproductsforuser']" routerLinkActice="active">Product's Of User</a>
+        <a mat-button [routerLink]="['/displayproductsforuser']" routerLinkActice="active"
+            *ngIf="currentUser?.getCurrentUser()!=null">Product's Of User</a>
+        <a mat-button [routerLink]="['/signup']" routerLinkActice="active"
+            *ngIf="currentUser?.getCurrentUser()?.userRole==1">Create Product Master</a>
+
+        <a mat-button [routerLink]="['/signup']" routerLinkActice="active"
+            *ngIf="currentUser?.getCurrentUser()==null">Sign up</a>
+        <a mat-button [routerLink]="['/signin']" routerLinkActice="active"
+            *ngIf="currentUser?.getCurrentUser()==null">Sign in</a>
+        <form (ngSubmit)="searchProduct()" *ngIf="currentUser?.getCurrentUser()!=null">
+            <input type="search" name="search" [(ngModel)]="search" style="color: black;" />
+            <button type="submit" mat-button>
+                <mat-icon style="color: black;">search</mat-icon>
+            </button>
+        </form>
+        <span class="example-fill-remaining-space"></span>
+        <a [routerLink]="['/signin']" mat-button (click)="logout()" *ngIf="currentUser?.getCurrentUser()!=null">Logout
+            <mat-icon>exit_to_app</mat-icon>
+        </a>
     </mat-toolbar-row>
 
 

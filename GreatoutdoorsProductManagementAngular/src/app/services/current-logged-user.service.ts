@@ -6,11 +6,10 @@ import { UserDTO } from '../Model/UserDTO'
 })
 export class CurrentLoggedUserService {
 
-  currentUser: UserDTO = new UserDTO();
+  currentUser: UserDTO;
 
   constructor() {
-    this.currentUser.userId = 101;
-    this.currentUser.userRole = 2;
+
   }
 
   public setCurrentUser(userdto: UserDTO) {

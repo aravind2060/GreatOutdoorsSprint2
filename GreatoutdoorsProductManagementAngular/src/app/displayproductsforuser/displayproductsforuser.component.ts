@@ -12,7 +12,7 @@ import { CurrentLoggedUserService } from '../services/current-logged-user.servic
 })
 export class DisplayproductsforuserComponent implements OnInit {
 
-  queryResponse:QueryResponse;
+  queryResponse: QueryResponse;
   noOfPages = [];
   currentPage = 0;
 
@@ -26,10 +26,10 @@ export class DisplayproductsforuserComponent implements OnInit {
 
   getAllProducts(pageNumber) {
     this.currentPage = pageNumber;
-    this.productService.getAllProducts(this.currentUser.getCurrentUser().userId, pageNumber).subscribe(
+    this.productService.getAllProducts(this.currentUser.getCurrentUser()?.userId, pageNumber).subscribe(
       (data: QueryResponse) => {
         this.queryResponse = data;
-        this.noOfPages=new Array(this.queryResponse.totalNoOfPages);
+        this.noOfPages = new Array(this.queryResponse.totalNoOfPages);
         console.log(this.queryResponse.list);
       }
       , error => {
